@@ -1,3 +1,4 @@
-package-one==1.9.4
-package-two==3.7.1
-package-three==1.0.1
+numpy==1.23.4
+pandas==1.5.3
+opencv-python==4.7.0.68
+matplotlib==3.6.2
