@@ -14,6 +14,7 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
 
+## Requires a dataset to run
 
 def detect(save_img=False):
     source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
@@ -66,6 +67,9 @@ def detect(save_img=False):
     old_img_w = old_img_h = imgsz
     old_img_b = 1
 
+    # Initialise Results List
+    resultList = []
+
     t0 = time.time()
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
@@ -111,10 +115,16 @@ def detect(save_img=False):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
 
+                ##############################################################################
+                # KYLE CODE
+                # ############################################################################  
+                 
                 # Print results
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+                resultList.append(s)
+                # print(resultList)
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
@@ -162,6 +172,35 @@ def detect(save_img=False):
 
     print(f'Done. ({time.time() - t0:.3f}s)')
 
+    numResultList = []
+
+    for i in resultList:
+        cars = 0
+        truck = 0
+        vans = 0
+        motorcycles = 0
+        other = 0
+        tokens = [x.strip() for x in i.split(',')]
+        for j in tokens:
+            if "car" in j:
+                cars += int(j[:2])
+            elif "truck" in j:
+                truck += int(j[:2])
+            elif "van" in j:
+                vans += int(j[:2])
+            elif "motorcycle" in j:
+                motorcycles += int(j[:2])
+        numResultList.append([cars,truck,vans,motorcycles,other])
+            
+
+    with open(r'results.txt', 'w') as fp:
+        for i in numResultList:
+            fp.write("%s\n" % i)
+        print("Finished writing to file")
+    fp.close()
+
+##############################################################################
+# ############################################################################ 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
