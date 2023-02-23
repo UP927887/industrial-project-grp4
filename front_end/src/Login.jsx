@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import "./App.css";
 
@@ -47,7 +48,7 @@ export default function Login() {
         name === errorMessages.name && (
             <div className="error">{errorMessages.message}</div>
         );
-    
+
 
     const renderLoginForm = (
         <div className="login-form-container">
@@ -78,11 +79,7 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <button 
-                        type="submit"
-                        >
-                            Submit 
-                        </button>
+                        <button type="submit">Submit</button>
                     </div>
                 </fieldset>
             </form>
@@ -93,7 +90,7 @@ export default function Login() {
         <div className="login">
             <div className="login-form-container">
                 <div className="title">Login</div>
-                {isSubmitted ? <div>User successfully logged in</div> : renderLoginForm}
+                {isSubmitted ? <a href='./VideoFeed.jsx'>l</a> : renderLoginForm}
             </div>
         </div>
     )
