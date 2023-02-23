@@ -72,7 +72,7 @@ export default function Login() {
                         <input 
                             id = "password" 
                             name = "pw" 
-                            type = "text" required
+                            type = "password" required
                         />
                         {renderErrorMessages("pw")}
                     </div>
