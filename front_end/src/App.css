@@ -25,11 +25,22 @@ label {
   /* margin-bottom: 10px; */
 }
 
-input {
+input[type="text"],
+input[type="password"] {
   display: flexbox;
   flex-direction: row;
   justify-content: center;
   margin-left: 10px;
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.title {
+  font-size: 25px;
+  margin-bottom: 20px;
 }
 
 fieldset{
@@ -37,6 +48,11 @@ fieldset{
   margin: auto;
 }
 
-button {
+button[type="submit"]:hover {
+  background: #6cf0c2;
+}
+
+button[type="submit"] {
   margin-top: 10px;
+  cursor: pointer;
 }
