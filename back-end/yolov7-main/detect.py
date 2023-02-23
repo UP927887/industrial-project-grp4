@@ -120,7 +120,7 @@ def detect(save_img=False):
                 # KYLE CODE
                 # ############################################################################  
                  
-                # Print results
+                # Print results and store in list with timestamp
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
@@ -176,8 +176,10 @@ def detect(save_img=False):
 
     print(f'Done. ({time.time() - t0:.3f}s)')
 
+    # Initialise final list to write to file
     numResultList = []
 
+    # Convert detections into int using string handling
     for i in resultList:
         cars = 0
         truck = 0
@@ -201,15 +203,16 @@ def detect(save_img=False):
                 timeMark += j
         numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
             
-
+    # If file doesn't exist, create a new one. If existing data is present, overwrite data
+    # (KYLE) May need to look at this again incase we want more data stored
     with open(r'results.txt', 'w') as fp:
         for i in numResultList:
             fp.write("%s\n" % i)
         print("Finished writing to file")
     fp.close()
 
-##############################################################################
-# ############################################################################ 
+#############################################################################
+############################################################################# 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
