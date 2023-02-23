@@ -1,6 +1,7 @@
 import argparse
 import time
 from pathlib import Path
+from datetime import datetime
 
 import cv2
 import torch
@@ -123,6 +124,9 @@ def detect(save_img=False):
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
+                now = datetime.now()
+                timestamp = now.strftime("%H:%M:%S")
+                s += timestamp
                 resultList.append(s)
                 # print(resultList)
 
@@ -177,20 +181,25 @@ def detect(save_img=False):
     for i in resultList:
         cars = 0
         truck = 0
-        vans = 0
+        buses = 0
         motorcycles = 0
-        other = 0
+        bicycles = 0
+        timeMark = ""
         tokens = [x.strip() for x in i.split(',')]
         for j in tokens:
             if "car" in j:
                 cars += int(j[:2])
             elif "truck" in j:
                 truck += int(j[:2])
-            elif "van" in j:
-                vans += int(j[:2])
+            elif "bus" in j:
+                buses += int(j[:2])
             elif "motorcycle" in j:
                 motorcycles += int(j[:2])
-        numResultList.append([cars,truck,vans,motorcycles,other])
+            elif "bicycle" in j:
+                bicycles += int(j[:2])
+            elif ":" in j:
+                timeMark += j
+        numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
             
 
     with open(r'results.txt', 'w') as fp:
