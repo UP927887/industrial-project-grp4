@@ -205,10 +205,16 @@ def detect(save_img=False):
             
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
-    with open(r'results.txt', 'w') as fp:
+    # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   
+    results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
+    
+    with open(results_path +'.txt', 'x') as fp:
         fp.write("Cars | Truck | Buses | Motorcycles | Bicycles | Time \n")
+        o = 0
         for i in numResultList:
-            fp.write("%s\n" % i)
+            if(o % 50==0):
+                fp.write("%s\n" % i)
+            o +=1
         print("Finished writing to file")
     fp.close()
 
