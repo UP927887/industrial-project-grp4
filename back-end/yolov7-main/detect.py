@@ -206,6 +206,7 @@ def detect(save_img=False):
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
     with open(r'results.txt', 'w') as fp:
+        fp.write("Cars | Truck | Buses | Motorcycles | Bicycles | Time \n")
         for i in numResultList:
             fp.write("%s\n" % i)
         print("Finished writing to file")
