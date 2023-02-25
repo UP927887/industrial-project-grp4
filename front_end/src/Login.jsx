@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 
 import "./App.css";
+import { dbConnect } from './database';
 
 export default function Login() {
 
@@ -23,7 +24,9 @@ export default function Login() {
         //page does not reload
         event.preventDefault();
     
-        var {uname,pw} = document.forms[0];
+        var {uname,pw} = document.forms[0]; //stored input values
+
+        
     
         //Find user info
         const userData = dummyLogin.find((user) => user.username === uname.value);
