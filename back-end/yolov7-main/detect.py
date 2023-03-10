@@ -8,6 +8,10 @@ import torch
 import torch.backends.cudnn as cudnn
 from numpy import random
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
 from models.experimental import attempt_load
 from utils.datasets import LoadStreams, LoadImages
 from utils.general import check_img_size, check_requirements, check_imshow, non_max_suppression, apply_classifier, \
@@ -209,14 +213,22 @@ def detect(save_img=False):
     results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
     
     with open(results_path +'.txt', 'x') as fp:
-        fp.write("Cars | Truck | Buses | Motorcycles | Bicycles | Time \n")
+        fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
         o = 0
         for i in numResultList:
             if(o % 50==0):
-                fp.write("%s\n" % i)
+                fp.write("%s" % i)
+                fp.write(",\n")
             o +=1
         print("Finished writing to file")
     fp.close()
+
+def createGraph(fileName):
+    headerNames = ['Cars','Truck','Buses','Motorcycles','Bicycles','Time']
+    results = pd.read_csv(fileName, sep=" ", names=headerNames)
+
+     ## Do more
+
 
 #############################################################################
 ############################################################################# 
