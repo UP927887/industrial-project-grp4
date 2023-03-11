@@ -3,6 +3,8 @@ import time
 from pathlib import Path
 from datetime import datetime
 
+
+import csv
 import cv2
 import torch
 import torch.backends.cudnn as cudnn
@@ -176,7 +178,7 @@ def detect(save_img=False):
 
     if save_txt or save_img:
         s = f"\n{len(list(save_dir.glob('labels/*.txt')))} labels saved to {save_dir / 'labels'}" if save_txt else ''
-        #print(f"Results saved to {save_dir}{s}")
+        print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
 
@@ -210,7 +212,7 @@ def detect(save_img=False):
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
     # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   
-    results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
+    results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
     
     with open(results_path +'.txt', 'x') as fp:
         fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
@@ -221,7 +223,28 @@ def detect(save_img=False):
                 fp.write(",\n")
             o +=1
         print("Finished writing to file")
+
     fp.close()
+    # Remove brackets from file and convert to CSV
+    with open(results_path +'.txt', 'r') as fp:
+        data = fp.read()
+        
+    data = data.replace('[', '')
+    data = data.replace(']', '')
+
+    with open(results_path +'.txt', 'w') as fp:
+        fp.write(data)
+    fp.close()
+    
+    df = pd.read_csv(results_path +'.txt', sep=",")
+    df.to_csv(results_path +'.csv', index=None)
+    
+    #Create graph and save it as png (obviously would need to modify make it nicer)
+    graph = pd.read_csv(results_path +'.csv')
+    print(graph.head())
+    graph.plot()
+    plt.savefig(results_path +'.png')
+    
 
 def createGraph(fileName):
     headerNames = ['Cars','Truck','Buses','Motorcycles','Bicycles','Time']
@@ -250,7 +273,7 @@ if __name__ == '__main__':
     parser.add_argument('--augment', action='store_true', help='augmented inference')
     parser.add_argument('--update', action='store_true', help='update all models')
     parser.add_argument('--project', default='runs/detect', help='save results to project/name')
-    parser.add_argument('--name', default='exp', help='save results to project/name')
+    parser.add_argument('--name', default='', help='save results to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     opt = parser.parse_args()
