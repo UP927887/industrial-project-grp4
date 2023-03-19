@@ -3,87 +3,69 @@ import React, {useState} from 'react';
 // import { BrowserRouter as Router } from 'react-router-dom';
 import { VideoLiveFeed } from './videofeed/VideoFeed';
 
-import "./App.css";
+// import "./App.css";
 // import { dbConnect } from './database';
+import axios from 'axios';
+
+import "./App.css";
 
 export default function Login() {
 
-    const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
-    
-    const dummyLogin = [{
-        username: "presh",
-        password: "abc123"
-    }];
 
-    const errors = {
-        uname: "invalid username",
-        pw: "invalid password"
-    };
+    const [usernameLog, setUsername] = useState('');
+    const [passwordLog, setPassword] = useState('');
 
-    const handleSumbit = (event) => {
-        //page does not reload
-        event.preventDefault();
-    
-        var {uname,pw} = document.forms[0]; //stored input values
+    const loginfunc = (e) => {
+        e.preventDefault();
 
-        
-    
-        //Find user info
-        const userData = dummyLogin.find((user) => user.username === uname.value);
-    
-        //Compare data
-        if (userData) {
-            if (userData.password !== pw.value) {
-                //invalid password
-                setErrorMessages({ name: "pw", message: errors.pw});
-            } else {
-                setIsSubmitted(true);
-            }
-        } else {
-            //Invalid username
-            setErrorMessages({name: "uname", message: errors.uname});
-        }
+        axios.post("http://localhost:3001/login", { // "https://aws-eu-west-2.connect.psdb.cloud:3306/login"
+            usernameSub: usernameLog, 
+            passwordSub: passwordLog}).then((response) => {
+                if (response.data.length > 0) {
+                    setIsSubmitted(true);
+                } else {
+                    setIsSubmitted(false);
+                }
+            }).catch((error) => {
+                console.log(error);
+            });
     };
     
-    //error messages for username and password
-    const renderErrorMessages = (name) => 
-
-        name === errorMessages.name && (
-            <div className="error">{errorMessages.message}</div>
-        );
-
-
     const renderLoginForm = (
-        <div className="login-form-container">
-            <form 
-            onSubmit={handleSumbit}
-            >
+        <div htmlFor="login-form-container">
+            <form onSubmit={loginfunc}>
                 <fieldset
-                className="login-form"
+                htmlFor="login-form"
                 >
                     <div>
-                        <label for="username">Username</label>
+                        <label htmlFor="username">Username</label>
                         <input 
                             id = "username" 
                             name = "uname" 
                             type = "text" required
+                            onChange={(e) => {
+                                setUsername(e.target.value)
+                            }}
                         />
-                        {renderErrorMessages("uname")}
                     </div>
 
                     <div>
-                        <label for="password">Password</label>
+                        <label type="password" htmlFor="password">Password</label>
                         <input 
                             id = "password" 
                             name = "pw" 
                             type = "password" required
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}
                         />
-                        {renderErrorMessages("pw")}
                     </div>
 
                     <div>
-                        <button type="submit">Submit</button>
+                        <button type="submit" /*onClick={loginfunc}*/>
+                            Submit
+                        </button>
                     </div>
                 </fieldset>
             </form>
@@ -97,5 +79,5 @@ export default function Login() {
                 {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
             </div>
         </div>
-    )
+    );
 }

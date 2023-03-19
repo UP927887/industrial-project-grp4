@@ -1,19 +1,12 @@
 import './App.css';
-import { VideoLiveFeed } from './videofeed/VideoFeed';
-import { Login } from './login/Login';
-// import { BrowserRouter, Route, Routes} from "react-router-dom";
+// import VideoLiveFeed from './VideoFeed';
+// import { Router, Route } from 'react-router-dom';
+import Login from './Login';
 
 function App() {
   return (
-    <div>
-      <div className='App'>
-        <Login />
-        {/* <BrowserRouter>
-          <Routes>
-            <Route path="/videofeed" element={VideoLiveFeed}></Route>
-          </Routes>
-        </BrowserRouter> */}
-      </div>
+    <div className="App">
+      <Login />    
     </div>
   );
 }
