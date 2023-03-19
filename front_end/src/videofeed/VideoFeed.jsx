@@ -1,13 +1,19 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+// import { BrowserRouter as Router } from 'react-router-dom';
 
 import "./Livefeed.css";
 
-export default function VideoLiveFeed() {
+export const VideoLiveFeed = () => {
+    // window.location.href = '../videofeed';
+
+    
     return(
         <div>
-            <div class='live-feed-box'>hello</div>
+            <div class='live-feed-box'>
+                <button class="kyle">SUBMIT</button>
+
+            </div>
             <div class='summary'>
                 <table class = "summary-table-count">
                     <tr id = 'rows'>
@@ -24,6 +30,14 @@ export default function VideoLiveFeed() {
                     </tr>
                     <tr>
                         <td>Bike</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>Motorbike</td>
+                        <td>8</td>
+                    </tr>
+                    <tr>
+                        <td>Bus</td>
                         <td>8</td>
                     </tr>
                 </table>

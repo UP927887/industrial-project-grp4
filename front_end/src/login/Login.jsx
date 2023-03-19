@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-// import ReactDOM from 'react-dom';
-// import { BrowserRouter as Router } from 'react-router-dom';
-import { VideoLiveFeed } from './videofeed/VideoFeed';
+import { VideoLiveFeed } from '../videofeed/VideoFeed';
+// import {Link } from 'react-router-dom';
+import "./login.css"
 
-import "./App.css";
-// import { dbConnect } from './database';
+export const Login = () => {
 
-export default function Login() {
+    // const navigate = useNavigate();
 
     const [errorMessages, setErrorMessages] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
@@ -25,9 +24,7 @@ export default function Login() {
         //page does not reload
         event.preventDefault();
     
-        var {uname,pw} = document.forms[0]; //stored input values
-
-        
+        var {uname,pw} = document.forms[0];
     
         //Find user info
         const userData = dummyLogin.find((user) => user.username === uname.value);
@@ -89,13 +86,12 @@ export default function Login() {
             </form>
         </div>
     );
-
     return(
         <div className="login">
             <div className="login-form-container">
-                <div className="title">Login</div>
-                {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
+                {isSubmitted ? <VideoLiveFeed />: renderLoginForm}
             </div>
         </div>
     )
+
 }
