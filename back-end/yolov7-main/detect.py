@@ -1,5 +1,6 @@
 import argparse
 import time
+import os
 from pathlib import Path
 from datetime import datetime
 
@@ -78,6 +79,14 @@ def detect(save_img=False):
     resultList = []
 
     t0 = time.time()
+
+    ## Get file name from parser
+    print("file name",opt.source)
+    fileName = opt.source
+    ti_m = os.path.getctime(fileName)
+    t_obj = time.localtime(ti_m)
+    counter = 0
+
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
@@ -130,10 +139,14 @@ def detect(save_img=False):
                 for c in det[:, -1].unique():
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
-                now = datetime.now()
-                timestamp = now.strftime("%H:%M:%S")
-                s += timestamp
+                
+                # Every 24 frames count as a second
+                if counter%24 == 0:
+                    t_obj = time.localtime(time.mktime(t_obj)+1)
+                fin = time.strftime("%H:%M:%S", t_obj)
+                s += fin
                 resultList.append(s)
+                counter +=1
                 # print(resultList)
 
                 # Write results
@@ -186,6 +199,7 @@ def detect(save_img=False):
     numResultList = []
 
     # Convert detections into int using string handling
+    # (KYLE) Could clean this up? looks messy
     for i in resultList:
         cars = 0
         truck = 0
@@ -244,14 +258,6 @@ def detect(save_img=False):
     print(graph.head())
     graph.plot()
     plt.savefig(results_path +'.png')
-    
-
-def createGraph(fileName):
-    headerNames = ['Cars','Truck','Buses','Motorcycles','Bicycles','Time']
-    results = pd.read_csv(fileName, sep=" ", names=headerNames)
-
-     ## Do more
-
 
 #############################################################################
 ############################################################################# 
@@ -278,6 +284,7 @@ if __name__ == '__main__':
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
     opt = parser.parse_args()
     print(opt)
+    svc_name = "source"
     #check_requirements(exclude=('pycocotools', 'thop'))
 
     with torch.no_grad():
