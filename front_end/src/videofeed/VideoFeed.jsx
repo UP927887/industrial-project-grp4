@@ -7,13 +7,38 @@ import "./Livefeed.css";
 export const VideoLiveFeed = () => {
     // window.location.href = '../videofeed';
 
-    
+    // https://www.upbeatcode.com/react/how-to-play-video-in-react/
+    const [src, setSrc] = useState("");
+
+    const handleChange = (event) => {
+        try {
+            // Get the uploaded file
+            const file = event.target.files[0];
+            // const file = "back-end/videos/america1.mp4";
+
+            // Transform file into blob URL
+            setSrc(URL.createObjectURL(file));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return(
         <div>
             <div class='live-feed-box'>
-                <button class="kyle">SUBMIT</button>
+                {/* <button class="kyle">SUBMIT</button> */}
+                
+                <video src={src} controls width="100%">
+                    Sorry, your browser doesn't support embedded videos.
+                </video>
 
+                <input type="file" onChange={handleChange} />
+
+                <button type='Sumbit'>
+                    Run Detection Program
+                </button>
             </div>
+
             <div class='summary'>
                 <table class = "summary-table-count">
                     <tr id = 'rows'>

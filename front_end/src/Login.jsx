@@ -19,7 +19,7 @@ export default function Login() {
     const loginfunc = (e) => {
         e.preventDefault();
 
-        axios.post("http://localhost:3001/login", { // "https://aws-eu-west-2.connect.psdb.cloud:3306/login"
+        axios.post("http://localhost:3001/login", {
             usernameSub: usernameLog, 
             passwordSub: passwordLog}).then((response) => {
                 if (response.data.length > 0) {
@@ -35,9 +35,7 @@ export default function Login() {
     const renderLoginForm = (
         <div htmlFor="login-form-container">
             <form onSubmit={loginfunc}>
-                <fieldset
-                htmlFor="login-form"
-                >
+                <fieldset htmlFor="login-form">
                     <div>
                         <label htmlFor="username">Username</label>
                         <input 
