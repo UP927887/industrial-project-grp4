@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { VideoLiveFeed } from './videofeed/VideoFeed';
 
 import "./App.css";
 
@@ -91,8 +92,8 @@ export default function Login() {
     return(
         <div className="login">
             <div className="login-form-container">
-                <div className="title">Login</div>
-                {isSubmitted ? <a href='./VideoFeed.jsx'>l</a> : renderLoginForm}
+                {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
+
             </div>
         </div>
     )

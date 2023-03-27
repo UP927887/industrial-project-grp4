@@ -6,12 +6,12 @@ import "./Livefeed.css";
 
 export const VideoLiveFeed = () => {
     // window.location.href = '../videofeed';
-
+    // LOGIC TO ADD MORE ROWS WHEN IT DETECTS VEHICLES
     
     return(
         <div>
             <div class='live-feed-box'>
-                <button class="kyle">SUBMIT</button>
+                {/* <button class="kyle">SUBMIT</button> */}
 
             </div>
             <div class='summary'>

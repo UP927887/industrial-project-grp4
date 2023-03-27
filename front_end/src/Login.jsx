@@ -11,13 +11,29 @@ import "./App.css";
 
 export default function Login() {
 
+
     const [isSubmitted, setIsSubmitted] = useState(false);
 
     const [usernameLog, setUsername] = useState('');
     const [passwordLog, setPassword] = useState('');
 
+    // const errorM = document.getElementById('error');
+
+    // console.log(errorM.innerText.length);
+
     const loginfunc = (e) => {
         e.preventDefault();
+
+        let errorMsg = document.getElementsByClassName('error');
+
+        const usernameElem = document.getElementsByClassName('username');
+        const passwordElem = document.getElementsByClassName('password');
+
+        [usernameElem, passwordElem].forEach(elem => {
+            elem.addEventListener('click', function(){
+                errorMsg.innerHTML = "";
+            })
+        });
 
         axios.post("http://localhost:3001/login", { // "https://aws-eu-west-2.connect.psdb.cloud:3306/login"
             usernameSub: usernameLog, 
@@ -26,22 +42,33 @@ export default function Login() {
                     setIsSubmitted(true);
                 } else {
                     setIsSubmitted(false);
+                    errorMsg.innerHTML = "Incorrect username/password";
+
                 }
             }).catch((error) => {
                 console.log(error);
             });
     };
-    
+    // const deleteErrorMessage = () => {
+    //     let errorMsg = document.getElementById('username');
+    //     if (errorMsg) {
+    //         errorMsg.addEventListener('focus', function(){
+    //             errorMsg.innerHTML = "";
+    //         });
+    //     }
+    // };
+    // deleteErrorMessage();
+
     const renderLoginForm = (
         <div htmlFor="login-form-container">
-            <form onSubmit={loginfunc}>
+            <form class="login-form" onSubmit={loginfunc}>
                 <fieldset
                 htmlFor="login-form"
                 >
                     <div>
                         <label htmlFor="username">Username</label>
                         <input 
-                            id = "username" 
+                            className = "login-form username" 
                             name = "uname" 
                             type = "text" required
                             onChange={(e) => {
@@ -53,7 +80,7 @@ export default function Login() {
                     <div>
                         <label type="password" htmlFor="password">Password</label>
                         <input 
-                            id = "password" 
+                            className = "login-form password" 
                             name = "pw" 
                             type = "password" required
                             onChange={(e) => {
@@ -63,19 +90,19 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <button type="submit" /*onClick={loginfunc}*/>
-                            Submit
+                        <button className="btn-login" type="submit" /*onClick={loginfunc}*/>
+                            Login
                         </button>
                     </div>
                 </fieldset>
             </form>
+            <div id='error'></div>
         </div>
     );
 
     return(
         <div className="login">
             <div className="login-form-container">
-                <div className="title">Login</div>
                 {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
             </div>
         </div>

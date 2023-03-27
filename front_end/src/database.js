@@ -1,45 +1,3 @@
-// // MYSQL V2
-// var mysql = require('mysql');
-
-// const db = mysql.createConnection (
-//     {
-//         host: "localhost",
-//         user: "root",
-//         password: "passwordCCTV123",
-//         database: "cardetectiondb"
-//     }
-// );
-
-// db.connect(function(err) 
-//     {
-//         if (err) {
-//             console.log('DB error');
-//             throw err;
-//             return false;
-//         }
-//     }
-// );
-
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// var connection  = require('express-myconnection'); 
-// var mysql = require('mysql');
-
-// const app = express(); 
-// app.use(bodyParser.json());
-
-// app.use(
-//     connection(mysql,
-//     {
-//         host: 'localhost', //'localhost',
-//         user: 'userEHX',
-//         password : 'hMmx56FN4GHpMXOl',
-//         port : 3306, //port mysql
-//         database:'sampledb'
-//     },
-//     'pool')
-// ); //or single
-
 // MYSQL CLOUD SQL CONNECTION -> WORKING
 const express = require('express');
 const mysql = require('mysql');
@@ -63,6 +21,13 @@ const db = mysql.createConnection (
         // ssl: false
     }
 );
+
+db.connect(function(err) {
+    if (err){
+        throw err;
+    }
+    console.log("Connected");
+});
 
 app.post('/login', (req, res) => {
     const username = req.body.usernameSub;
