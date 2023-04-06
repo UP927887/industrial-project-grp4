@@ -24,10 +24,12 @@ export default function Login() {
     const loginfunc = (e) => {
         e.preventDefault();
 
-        let errorMsg = document.getElementsByClassName('error');
+        let errorMsg = document.querySelector('.error');
 
-        const usernameElem = document.getElementsByClassName('username');
-        const passwordElem = document.getElementsByClassName('password');
+        const usernameElem = document.querySelector('.username');
+        const passwordElem = document.querySelector('.password');
+        // console.log("AHAHAH", usernameElem);
+        errorMsg.innerHTML+="HELLO";
 
         [usernameElem, passwordElem].forEach(elem => {
             elem.addEventListener('click', function(){
@@ -49,27 +51,19 @@ export default function Login() {
                 console.log(error);
             });
     };
-    // const deleteErrorMessage = () => {
-    //     let errorMsg = document.getElementById('username');
-    //     if (errorMsg) {
-    //         errorMsg.addEventListener('focus', function(){
-    //             errorMsg.innerHTML = "";
-    //         });
-    //     }
-    // };
-    // deleteErrorMessage();
 
     const renderLoginForm = (
         <div htmlFor="login-form-container">
-            <form class="login-form" onSubmit={loginfunc}>
+            <form className="login-form" onSubmit={loginfunc}>
                 <fieldset
                 htmlFor="login-form"
                 >
                     <div>
-                        <label htmlFor="username">Username</label>
+                        <label type="username" htmlFor="username">Username</label>
                         <input 
                             className = "login-form username" 
                             name = "uname" 
+                            placeholder = "something@pcc.co.uk"
                             type = "text" required
                             onChange={(e) => {
                                 setUsername(e.target.value)
@@ -96,7 +90,7 @@ export default function Login() {
                     </div>
                 </fieldset>
             </form>
-            <div id='error'></div>
+            <div className='error'></div>
         </div>
     );
 

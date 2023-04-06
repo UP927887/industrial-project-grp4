@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-/* .login-form {
+.login-form {
   background-color: #242424;
   border-radius: 16px;
   box-shadow: 1px 3px 30px rgba(0, 0, 0, 0.6);
@@ -31,11 +31,11 @@
   box-sizing: border-box;
 }
 
-.btn-login:hover {
+#btn-login:hover {
   cursor: pointer;
   filter: brightness(110%);
-} */
-/*
+}
+
 form {
   width: 60vw;
   margin: 50% auto;
@@ -48,8 +48,8 @@ label {
   justify-content: center;
   text-align: right;
   width: 400px;
-  /* line-height: 26px; */
-  /* margin-bottom: 10px; 
+  line-height: 26px;
+  margin-bottom: 10px; 
 }
 
 input[type="text"],
@@ -61,8 +61,11 @@ input[type="password"] {
 }
 
 .error {
+  width: 100%;
+  border: red solid 2px;
   color: red;
-  font-size: 12px;
+  font-size: 20px;
+
 }
 
 .title {
@@ -83,4 +86,8 @@ button[type="submit"] {
   margin-top: 10px;
   cursor: pointer;
 }
-*/
+
+.error {
+  font-weight: normal;
+  opacity: 80%;
+}
