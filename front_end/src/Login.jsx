@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router } from 'react-router-dom';
 import { VideoLiveFeed } from './videofeed/VideoFeed';
@@ -19,7 +19,7 @@ export default function Login() {
 
     // const errorM = document.getElementById('error');
 
-    // console.log(errorM.innerText.length);
+    // console.log(errorM.innerText.length);x
 
     const loginfunc = (e) => {
         e.preventDefault();
@@ -29,7 +29,6 @@ export default function Login() {
         const usernameElem = document.querySelector('.username');
         const passwordElem = document.querySelector('.password');
         // console.log("AHAHAH", usernameElem);
-        errorMsg.innerHTML+="HELLO";
 
         [usernameElem, passwordElem].forEach(elem => {
             elem.addEventListener('click', function(){
@@ -51,6 +50,30 @@ export default function Login() {
                 console.log(error);
             });
     };
+
+
+    useEffect(() => {
+        const forgotPassContainer = document.querySelector('.login-form');
+        const forgotPassword = document.querySelector('.forgotPassword');
+        const boxAppear = document.querySelector('.forgot-pass-container');
+        const button = document.querySelector('.btn-login');
+        const username = document.querySelector('.login-form.username');
+        const password = document.querySelector('.login-form.password');
+        boxAppear.style.display = 'none';
+        const blurContainers = () => {
+            forgotPassContainer.style.filter = 'blur(5px)';
+            button.style.pointerEvents = 'none';
+            boxAppear.style.display = 'block';
+            username.pointerEvents = true;
+            password.disabled = true;
+            forgotPassword.style.pointerEvents ='none';
+            // containers.forEach(container => {
+            //     container.style.filter = 'blur(5px)';
+            // });
+        }
+        forgotPassword.addEventListener('click', blurContainers);
+
+    }, []);
 
     const renderLoginForm = (
         <div htmlFor="login-form-container">
@@ -88,8 +111,22 @@ export default function Login() {
                             Login
                         </button>
                     </div>
+                    <div>
+                        <p className="idk">Forgot your password? Click <a className="forgotPassword" href="#">here</a></p>
+                    </div>
                 </fieldset>
             </form>
+            <div>
+                <div className='forgot-pass-container'>
+                    <label type="forgot-username" htmlFor='forgot-username'>Username</label>
+                    <input 
+                            className = "login-form username" 
+                            name = "uname" 
+                            placeholder = "something@pcc.co.uk"
+                            type = "text" required
+                        />
+                </div>
+            </div>
             <div className='error'></div>
         </div>
     );
