@@ -81,11 +81,11 @@ def detect(save_img=False):
     t0 = time.time()
 
     ## Get file name from parser
-    print("file name",opt.source)
-    fileName = opt.source
-    ti_m = os.path.getctime(fileName)
-    t_obj = time.localtime(ti_m)
-    counter = 0
+    # print("file name",opt.source)
+    # fileName = opt.source
+    # ti_m = os.path.getctime(fileName)
+    # t_obj = time.localtime(ti_m)
+    # counter = 0
 
     for path, img, im0s, vid_cap in dataset:
         img = torch.from_numpy(img).to(device)
@@ -115,7 +115,9 @@ def detect(save_img=False):
         # Apply Classifier
         if classify:
             pred = apply_classifier(pred, modelc, img, im0s)
-
+        
+        startTime = datetime.now()
+        
         # Process detections
         for i, det in enumerate(pred):  # detections per image
             if webcam:  # batch_size >= 1
@@ -141,12 +143,18 @@ def detect(save_img=False):
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                 
                 # Every 24 frames count as a second
-                if counter%24 == 0:
-                    t_obj = time.localtime(time.mktime(t_obj)+1)
-                fin = time.strftime("%H:%M:%S", t_obj)
-                s += fin
-                resultList.append(s)
-                counter +=1
+                # if counter%24 == 0:
+                #     t_obj = time.localtime(time.mktime(t_obj)+1)
+
+                ## Only append if currentTime is greater than startTime (at least 1 second)
+                currentTime = datetime.now()
+                if currentTime > startTime:
+                    timeToStr = currentTime.strftime("%H:%M:%S")
+                    s += timeToStr
+                    resultList.append(s)
+                startTime = currentTime
+
+                # counter +=1
                 # print(resultList)
 
                 # Write results
@@ -230,12 +238,9 @@ def detect(save_img=False):
     
     with open(results_path +'.txt', 'x') as fp:
         fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
-        o = 0
         for i in numResultList:
-            if(o % 50==0):
-                fp.write("%s" % i)
-                fp.write(",\n")
-            o +=1
+            fp.write("%s" % i)
+            fp.write(",\n")
         print("Finished writing to file")
 
     fp.close()
