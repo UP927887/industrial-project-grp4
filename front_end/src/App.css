@@ -18,6 +18,10 @@ body {
 }
 
 .login-form {
+  background-color: #242424;
+  border-radius: 16px;
+  box-shadow: 1px 3px 30px rgba(0, 0, 0, 0.6);
+  padding: 5em;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +53,7 @@ body {
 
 form {
   width: 60vw;
-  margin: 50% auto;
+  margin: 0 auto;
   max-width: 500px;
   min-width: 300px;
 }
@@ -106,4 +110,17 @@ button[type="submit"] {
 .error {
   font-weight: normal;
   opacity: 80%;
+}
+
+.forgot-pass-container {
+  border: 2px red solid;
+  position: absolute;
+  left: 33%;
+  top: 20%;
+  background-color: red;
+  /* display: none; */
+}
+
+.idk {
+  color: white;
 }
