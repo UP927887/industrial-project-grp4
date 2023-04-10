@@ -59,11 +59,11 @@ export default function Login() {
                 htmlFor="login-form"
                 >
                     <div>
-                        <label type="username" htmlFor="username">Username</label>
+                        {/* <label type="username" htmlFor="username">Username</label> */}
                         <input 
                             className = "login-form username" 
                             name = "uname" 
-                            placeholder = "something@pcc.co.uk"
+                            placeholder = "Username"
                             type = "text" required
                             onChange={(e) => {
                                 setUsername(e.target.value)
@@ -72,10 +72,11 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <label type="password" htmlFor="password">Password</label>
+                        {/* <label type="password" htmlFor="password">Password</label> */}
                         <input 
                             className = "login-form password" 
                             name = "pw" 
+                            placeholder='Password'
                             type = "password" required
                             onChange={(e) => {
                                 setPassword(e.target.value)
@@ -85,7 +86,7 @@ export default function Login() {
 
                     <div>
                         <button className="btn-login" type="submit" /*onClick={loginfunc}*/>
-                            Login
+                            LOGIN
                         </button>
                     </div>
                 </fieldset>
