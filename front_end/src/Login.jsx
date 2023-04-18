@@ -53,25 +53,39 @@ export default function Login() {
 
 
     useEffect(() => {
-        const forgotPassContainer = document.querySelector('.login-form');
+        const blurBackground = document.querySelector('.login-form');
         const forgotPassword = document.querySelector('.forgotPassword');
-        const boxAppear = document.querySelector('.forgot-pass-container');
-        const button = document.querySelector('.btn-login');
+        const forgotPassBox = document.querySelector('.forgot-pass-container');
+        const notClickableLoginButton = document.querySelector('.btn-login');
         const username = document.querySelector('.login-form.username');
         const password = document.querySelector('.login-form.password');
-        boxAppear.style.display = 'none';
         
+        const exitButton = document.querySelector('.exit');
+        forgotPassBox.style.display = 'none';
+
         const blurContainers = () => {
-            forgotPassContainer.style.filter = 'blur(5px)';
-            button.style.pointerEvents = 'none';
-            boxAppear.style.display = 'block';
-            username.pointerEvents = true;
+            blurBackground.style.filter = 'blur(5px)';
+            notClickableLoginButton.style.pointerEvents = 'none';
+            forgotPassBox.style.display = 'block';
+            username.disabled = true;
             password.disabled = true;
             forgotPassword.style.pointerEvents ='none';
-            // containers.forEach(container => {
-            //     container.style.filter = 'blur(5px)';
-            // });
         }
+        const unBlurContainers = () => {
+            blurBackground.style.filter = 'none';
+            notClickableLoginButton.style.pointerEvents = 'auto';
+            forgotPassBox.style.display = 'none';
+            username.disabled = false;
+            password.disabled = false;
+            forgotPassword.style.pointerEvents ='auto';
+
+        }
+        exitButton.addEventListener('click', unBlurContainers);
+        document.addEventListener('keydown', (event) => {
+            if (event.code === 'Escape' && forgotPassBox.style.display === 'block'){
+                unBlurContainers();
+            }
+        });
         forgotPassword.addEventListener('click', blurContainers);
 
     }, []);
@@ -82,9 +96,9 @@ export default function Login() {
                 <form className="login-form" onSubmit={loginfunc}>
 
                         <div>
-                            {/* <label type="username" htmlFor="username">Username</label> */}
+                            <label type="username" htmlFor="username">Username</label>
                             <input
-                                id="input-field"
+                                className='login-form username'
                                 name="uname"
                                 placeholder="Username"
                                 type="uname" required
@@ -92,11 +106,10 @@ export default function Login() {
                                     setUsername(e.target.value);
                                 } } />
                         </div>
-
                         <div>
-                            {/* <label type="password" htmlFor="password">Password</label> */}
+                            <label type="password" htmlFor="password">Password</label>
                             <input
-                                id="input-field"
+                                className='login-form password'
                                 name="pw"
                                 placeholder='Password'
                                 type="password" required
@@ -117,9 +130,10 @@ export default function Login() {
 
                 </form>
                     <div className='forgot-pass-container'>
+                        <button className='exit'>X</button>
                         <label type="forgot-username">Please enter your username: </label>
                         <input
-                            className="login-form username"
+                            className="forgot-form username"
                             name="uname"
                             placeholder="Username"
                             type="forgot-input" required />
@@ -127,8 +141,23 @@ export default function Login() {
                             <button className="btn-login" type="submit">SUBMIT</button>
                         </div> 
                     </div>
-                <div className='error'></div>
-            </div>
+                {/* <div className='error'></div> */}
+                    {/* <div>
+                        <p className="idk">Forgot your password LOOL? Click <a className="forgotPassword" href="#">here</a></p>
+                    </div> */}
+            {/* <div> */}
+                {/* <div className='forgot-pass-container'> */}
+                    {/* <label type="forgot-username" htmlFor='forgot-username'>Username</label>
+                    <input 
+                            className = "login-form username" 
+                            name = "uname" 
+                            placeholder = "something@pcc.co.uk"
+                            type = "text" required
+                        /> */}
+                    {/* <button className='exit'>X</button> */}
+                {/* </div> */}
+            {/* </div> */}
+        </div>
     );
 
     return(

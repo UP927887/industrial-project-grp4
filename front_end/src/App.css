@@ -117,6 +117,17 @@ label {
   box-sizing: border-box;
 } 
 
+.login-form.username, .login-form.password{
+  box-shadow: 0 2px 10px;
+  background-color: #D9D9D9;
+  width: 100%;
+  padding: 12px 20px;
+  margin: 10px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
 /* -- change from red box at the bottom of the page --
 .error {
   align-self: auto;
