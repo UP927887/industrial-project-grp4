@@ -7,6 +7,9 @@ import { VideoLiveFeed } from './videofeed/VideoFeed';
 // import { dbConnect } from './database';
 import axios from 'axios';
 
+import eyecon from './images/eye-solid.svg'
+import noEyecon from './images/eye-slash-solid.svg'
+
 import "./App.css";
 
 export default function Login() {
@@ -17,9 +20,15 @@ export default function Login() {
     const [usernameLog, setUsername] = useState('');
     const [passwordLog, setPassword] = useState('');
 
+    const [seePw, setTogglePw] = useState(false);
+
     // const errorM = document.getElementById('error');
 
     // console.log(errorM.innerText.length);x
+
+    const togglePwVisibility = () => {
+        setTogglePw(seePw ? false : true)
+    };
 
     const loginfunc = (e) => {
         e.preventDefault();
@@ -57,8 +66,7 @@ export default function Login() {
         const forgotPassword = document.querySelector('.forgotPassword');
         const forgotPassBox = document.querySelector('.forgot-pass-container');
         const notClickableLoginButton = document.querySelector('.btn-login');
-        const username = document.querySelector('.login-form.username');
-        const password = document.querySelector('.login-form.password');
+        const inputs = document.querySelector('.input-field');
         
         const exitButton = document.querySelector('.exit');
         forgotPassBox.style.display = 'none';
@@ -67,16 +75,14 @@ export default function Login() {
             blurBackground.style.filter = 'blur(5px)';
             notClickableLoginButton.style.pointerEvents = 'none';
             forgotPassBox.style.display = 'block';
-            username.disabled = true;
-            password.disabled = true;
+            inputs.disabled = true;
             forgotPassword.style.pointerEvents ='none';
         }
         const unBlurContainers = () => {
             blurBackground.style.filter = 'none';
             notClickableLoginButton.style.pointerEvents = 'auto';
             forgotPassBox.style.display = 'none';
-            username.disabled = false;
-            password.disabled = false;
+            inputs.disabled = false;
             forgotPassword.style.pointerEvents ='auto';
 
         }
@@ -96,9 +102,9 @@ export default function Login() {
                 <form className="login-form" onSubmit={loginfunc}>
 
                         <div>
-                            <label type="username" htmlFor="username">Username</label>
+                            <label type="username" htmlFor="username"/>
                             <input
-                                className='login-form username'
+                                className="input-field"
                                 name="uname"
                                 placeholder="Username"
                                 type="uname" required
@@ -107,15 +113,26 @@ export default function Login() {
                                 } } />
                         </div>
                         <div>
-                            <label type="password" htmlFor="password">Password</label>
+                            <label type="password" htmlFor="password"/>
+
                             <input
-                                className='login-form password'
+                                className="input-field"
                                 name="pw"
                                 placeholder='Password'
-                                type="password" required
+                                type={seePw ? "password":"text"} required
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 } } />
+                            <button
+                                className='toggle-btn'
+                                onClick={togglePwVisibility}
+                            >
+                                <img 
+                                className='eye-icon'
+                                src={seePw ? noEyecon:eyecon}
+                                />
+                            </button>
+
                         </div>
 
                         <div>
