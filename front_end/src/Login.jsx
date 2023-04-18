@@ -127,6 +127,8 @@ export default function Login() {
                                 LOGIN
                             </button>
                         </div>
+                        <div className='error'></div>
+
 
                 </form>
                     <div className='forgot-pass-container'>
@@ -141,22 +143,6 @@ export default function Login() {
                             <button className="btn-login" type="submit">SUBMIT</button>
                         </div> 
                     </div>
-                {/* <div className='error'></div> */}
-                    {/* <div>
-                        <p className="idk">Forgot your password LOOL? Click <a className="forgotPassword" href="#">here</a></p>
-                    </div> */}
-            {/* <div> */}
-                {/* <div className='forgot-pass-container'> */}
-                    {/* <label type="forgot-username" htmlFor='forgot-username'>Username</label>
-                    <input 
-                            className = "login-form username" 
-                            name = "uname" 
-                            placeholder = "something@pcc.co.uk"
-                            type = "text" required
-                        /> */}
-                    {/* <button className='exit'>X</button> */}
-                {/* </div> */}
-            {/* </div> */}
         </div>
     );
 
