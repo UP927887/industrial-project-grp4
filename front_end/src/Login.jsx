@@ -60,6 +60,7 @@ export default function Login() {
         const username = document.querySelector('.login-form.username');
         const password = document.querySelector('.login-form.password');
         boxAppear.style.display = 'none';
+        
         const blurContainers = () => {
             forgotPassContainer.style.filter = 'blur(5px)';
             button.style.pointerEvents = 'none';
@@ -76,60 +77,56 @@ export default function Login() {
     }, []);
 
     const renderLoginForm = (
+
         <div htmlFor="login-form-container">
-            <form className="login-form" onSubmit={loginfunc}>
-                <fieldset
-                htmlFor="login-form"
-                >
-                    <div>
-                        {/* <label type="username" htmlFor="username">Username</label> */}
-                        <input 
-                            className = "login-form username" 
-                            name = "uname" 
-                            placeholder = "Username"
-                            type = "text" required
-                            onChange={(e) => {
-                                setUsername(e.target.value)
-                            }}
-                        />
-                    </div>
+                <form className="login-form" onSubmit={loginfunc}>
 
-                    <div>
-                        {/* <label type="password" htmlFor="password">Password</label> */}
-                        <input 
-                            className = "login-form password" 
-                            name = "pw" 
-                            placeholder='Password'
-                            type = "password" required
-                            onChange={(e) => {
-                                setPassword(e.target.value)
-                            }}
-                        />
-                    </div>
+                        <div>
+                            {/* <label type="username" htmlFor="username">Username</label> */}
+                            <input
+                                className="login-form username"
+                                name="uname"
+                                placeholder="Username"
+                                type="user-details" required
+                                onChange={(e) => {
+                                    setUsername(e.target.value);
+                                } } />
+                        </div>
 
-                    <div>
-                        <button className="btn-login" type="submit" /*onClick={loginfunc}*/>
-                            LOGIN
-                        </button>
+                        <div>
+                            {/* <label type="password" htmlFor="password">Password</label> */}
+                            <input
+                                className="login-form password"
+                                name="pw"
+                                placeholder='Password'
+                                type="user-details" required
+                                onChange={(e) => {
+                                    setPassword(e.target.value);
+                                } } />
+                        </div>
+
+                        <div>
+                            <p className="forgot-pw">Forgot your password? Click <a className="forgotPassword" href="#">here</a></p>
+                        </div>
+
+                        <div>
+                            <button className="btn-login" type="submit" /*onClick={loginfunc}*/>
+                                LOGIN
+                            </button>
+                        </div>
+
+                </form>
+                    <div className='forgot-pass-container'>
+                        <label type="forgot-username" htmlFor='forgot-username'>Please enter your username: </label>
+                        <input
+                            className="login-form username"
+                            name="uname"
+                            placeholder="Username"
+                            type="forgot-input" required />
+                        <button className="btn-login" type="submit">SUBMIT</button>
                     </div>
-                    <div>
-                        <p className="idk">Forgot your password? Click <a className="forgotPassword" href="#">here</a></p>
-                    </div>
-                </fieldset>
-            </form>
-            <div>
-                <div className='forgot-pass-container'>
-                    <label type="forgot-username" htmlFor='forgot-username'>Username</label>
-                    <input 
-                            className = "login-form username" 
-                            name = "uname" 
-                            placeholder = "something@pcc.co.uk"
-                            type = "text" required
-                        />
-                </div>
+                <div className='error'></div>
             </div>
-            <div className='error'></div>
-        </div>
     );
 
     return(
