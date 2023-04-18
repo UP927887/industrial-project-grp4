@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-
 import csv
 import cv2
 import torch
@@ -21,6 +20,8 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
+
+import dbConnect
 
 ## Requires a dataset to run
 
@@ -221,43 +222,47 @@ def detect(save_img=False):
                 bicycles += int(j[:2])
             elif ":" in j:
                 timeMark += j
-        numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
+        # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
+        # add data to table
+        values = (cars, truck, buses, motorcycles, bicycles, timeMark)
+        dbConnect.insert_data_into_table("vehicledetection", values)
+        dbConnect.create_line_graph()
             
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
     # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   
-    results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
+    # results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
     
-    with open(results_path +'.txt', 'x') as fp:
-        fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
-        o = 0
-        for i in numResultList:
-            if(o % 50==0):
-                fp.write("%s" % i)
-                fp.write(",\n")
-            o +=1
-        print("Finished writing to file")
+    # with open(results_path +'.txt', 'x') as fp:
+    #     fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
+    #     o = 0
+    #     for i in numResultList:
+    #         if(o % 50==0):
+    #             fp.write("%s" % i)
+    #             fp.write(",\n")
+    #         o +=1
+    #     print("Finished writing to file")
 
-    fp.close()
-    # Remove brackets from file and convert to CSV
-    with open(results_path +'.txt', 'r') as fp:
-        data = fp.read()
+    # fp.close()
+    # # Remove brackets from file and convert to CSV
+    # with open(results_path +'.txt', 'r') as fp:
+    #     data = fp.read()
         
-    data = data.replace('[', '')
-    data = data.replace(']', '')
+    # data = data.replace('[', '')
+    # data = data.replace(']', '')
 
-    with open(results_path +'.txt', 'w') as fp:
-        fp.write(data)
-    fp.close()
+    # with open(results_path +'.txt', 'w') as fp:
+    #     fp.write(data)
+    # fp.close()
     
-    df = pd.read_csv(results_path +'.txt', sep=",")
-    df.to_csv(results_path +'.csv', index=None)
+    # df = pd.read_csv(results_path +'.txt', sep=",")
+    # df.to_csv(results_path +'.csv', index=None)
     
     #Create graph and save it as png (obviously would need to modify make it nicer)
-    graph = pd.read_csv(results_path +'.csv')
-    print(graph.head())
-    graph.plot()
-    plt.savefig(results_path +'.png')
+    # graph = pd.read_csv(results_path +'.csv')
+    # print(graph.head())
+    # graph.plot()
+    # plt.savefig(results_path +'.png')
 
 #############################################################################
 ############################################################################# 

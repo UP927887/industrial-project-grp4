@@ -73,7 +73,6 @@ export default function Login() {
     return(
         <div className="login">
             <div className="login-form-container">
-                <div className="title">Login</div>
                 {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
             </div>
         </div>
