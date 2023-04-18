@@ -84,10 +84,10 @@ export default function Login() {
                         <div>
                             {/* <label type="username" htmlFor="username">Username</label> */}
                             <input
-                                className="login-form username"
+                                id="input-field"
                                 name="uname"
                                 placeholder="Username"
-                                type="user-details" required
+                                type="uname" required
                                 onChange={(e) => {
                                     setUsername(e.target.value);
                                 } } />
@@ -96,10 +96,10 @@ export default function Login() {
                         <div>
                             {/* <label type="password" htmlFor="password">Password</label> */}
                             <input
-                                className="login-form password"
+                                id="input-field"
                                 name="pw"
                                 placeholder='Password'
-                                type="user-details" required
+                                type="password" required
                                 onChange={(e) => {
                                     setPassword(e.target.value);
                                 } } />
@@ -109,21 +109,23 @@ export default function Login() {
                             <p className="forgot-pw">Forgot your password? Click <a className="forgotPassword" href="#">here</a></p>
                         </div>
 
-                        <div>
-                            <button className="btn-login" type="submit" /*onClick={loginfunc}*/>
+                        <div className="btn-wrapper">
+                            <button className="btn-login" type="btn-shadow" /*onClick={loginfunc}*/>
                                 LOGIN
                             </button>
                         </div>
 
                 </form>
                     <div className='forgot-pass-container'>
-                        <label type="forgot-username" htmlFor='forgot-username'>Please enter your username: </label>
+                        <label type="forgot-username">Please enter your username: </label>
                         <input
                             className="login-form username"
                             name="uname"
                             placeholder="Username"
                             type="forgot-input" required />
-                        <button className="btn-login" type="submit">SUBMIT</button>
+                        <div className="btn-wrapper">
+                            <button className="btn-login" type="submit">SUBMIT</button>
+                        </div> 
                     </div>
                 <div className='error'></div>
             </div>
