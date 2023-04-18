@@ -34,14 +34,7 @@ def insert_data_into_table(tableName, values):
 def create_line_graph():
     # Execute a query to retrieve the necessary data
     cursor = mydb.cursor()
-    cursor.execute("""SELECT TIME(time) as time_only, 
-                             SUM(cars) as carSum, 
-                             SUM(trucks) as truckSum,
-                             SUM(buses) as busSum,
-                             SUM(motorcycles) as motorcycleSum,
-                             SUM(bicycles) as bicycleSum 
-                      FROM vehicledetection 
-                      GROUP BY TIME(time)""")
+    cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection")
 
     # Fetch the data from the cursor and store it in separate lists for each column
     car = []
