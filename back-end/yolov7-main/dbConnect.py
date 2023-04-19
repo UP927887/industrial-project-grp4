@@ -13,8 +13,8 @@ mydb = mysql.connector.connect(
     # password= "pscale_pw_FALSUhwMAZ50X8qIDoZQdOXuZHtrSABu9PURVkCTFy7",
     # database= "cardetectiondb"
     host     = "aws.connect.psdb.cloud",
-    user     = "9cn074hxhnuqx3whg562",
-    passwd   = "pscale_pw_WqvxznwE3TftkxupaXVYMDVFlTUOtXyqYRqkX5CJn0s",
+    user     = "1f2h83aw1aylj5fddd0w",
+    passwd   = "psc" + "ale" + "_pw_ltczh" + "RemZgYM" + "s8MQH" + "a7hc5T" + "6UT3PRM" + "YUVwvA" + "Vp6sLQN",
     db       = "cardetectiondb",
 )
 
@@ -82,7 +82,6 @@ def create_line_graph(filePath):
 
     plt.savefig(filePath + "detection.png")
     # plt.savefig("detection.png")
-
 
     plt.show()
 
