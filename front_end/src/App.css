@@ -109,7 +109,7 @@ label {
   margin-bottom: 10px; 
 }
 
-.username, .password {
+.login-form.username, .login-form.password {
   box-shadow: 0 2px 10px;
   background-color: #D9D9D9;
   width: 100%;
