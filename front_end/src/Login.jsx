@@ -156,8 +156,6 @@ export default function Login() {
                             </button>
                         </div>
                         <div className='error'></div>
-
-
                 </form>
                     <div className='forgot-pass-container'>
                         <button className='exit'>X</button>
@@ -173,6 +171,7 @@ export default function Login() {
                             <button className="btn-login" type="submit">SUBMIT</button>
                         </div> 
                     </div>
+
         </div>
     );
 
