@@ -140,6 +140,7 @@ export default function Login() {
                                 <img 
                                 className='eye-icon'
                                 src={seePw ? noEyecon:eyecon}
+                                alt="eyecon"
                                 />
                             </button>
 
@@ -177,9 +178,7 @@ export default function Login() {
 
     return(
         <div className="login">
-
             {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
-
         </div>
     );
 }
