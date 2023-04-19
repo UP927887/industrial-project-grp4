@@ -4,14 +4,14 @@ from datetime import datetime, timedelta
 
 # Connect to the local MySQL server
 mydb = mysql.connector.connect(
-    # host="localhost",
-    # user="root",
-    # password="passwordCCTV123",
-    # database="cardetectiondb"
-    host="aws.connect.psdb.cloud",
-    username= "40al0qxw0goub120tk8f",
-    password= "pscale_pw_rKZTzPN4xsCzHkHKFcYv70LleogVcwCrCY9qlelb7rM",
-    database= "cardetectiondb"
+    host="localhost",
+    user="root",
+    password="passwordCCTV123",
+    database="cardetectiondb"
+    # host="aws.connect.psdb.cloud",
+    # username= "40al0qxw0goub120tk8f",
+    # password= "pscale_pw_rKZTzPN4xsCzHkHKFcYv70LleogVcwCrCY9qlelb7rM",
+    # database= "cardetectiondb"
 )
 
 # Check if the connection is successful

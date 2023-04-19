@@ -76,9 +76,6 @@ def detect(save_img=False):
     old_img_w = old_img_h = imgsz
     old_img_b = 1
 
-    # Initialise Results List
-    resultList = []
-
     t0 = time.time()
 
     ## Get file name from parser
@@ -89,6 +86,9 @@ def detect(save_img=False):
     counter = 0
 
     for path, img, im0s, vid_cap in dataset:
+        # Initialise Results List
+        resultList = []
+
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -147,6 +147,34 @@ def detect(save_img=False):
                 timeToStr = currentTime.strftime("%H:%M:%S")
                 s += timeToStr
                 resultList.append(s)
+
+                # Append data to database
+                for i in resultList:
+                    print(i)
+                    cars = 0
+                    truck = 0
+                    buses = 0
+                    motorcycles = 0
+                    bicycles = 0
+                    timeMark = ""
+                    tokens = [x.strip() for x in i.split(',')]
+                    for j in tokens:
+                        if "car" in j:
+                            cars += int(j[:2])
+                        elif "truck" in j:
+                            truck += int(j[:2])
+                        elif "bus" in j:
+                            buses += int(j[:2])
+                        elif "motorcycle" in j:
+                            motorcycles += int(j[:2])
+                        elif "bicycle" in j:
+                            bicycles += int(j[:2])
+                        elif ":" in j:
+                            timeMark += j
+                    # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
+                    # add data to table
+                    values = (cars, truck, buses, motorcycles, bicycles, timeMark)
+                    dbConnect.insert_data_into_table("vehicledetection", values)
 
                 # startTime = currentTime
                 # timeDiff = (currentTime - startTime).total_seconds()
@@ -214,34 +242,35 @@ def detect(save_img=False):
 
     # Convert detections into int using string handling
     # (KYLE) Could clean this up? looks messy
-    for i in resultList:
-        print(i)
-        cars = 0
-        truck = 0
-        buses = 0
-        motorcycles = 0
-        bicycles = 0
-        timeMark = ""
-        tokens = [x.strip() for x in i.split(',')]
-        for j in tokens:
-            if "car" in j:
-                cars += int(j[:2])
-            elif "truck" in j:
-                truck += int(j[:2])
-            elif "bus" in j:
-                buses += int(j[:2])
-            elif "motorcycle" in j:
-                motorcycles += int(j[:2])
-            elif "bicycle" in j:
-                bicycles += int(j[:2])
-            elif ":" in j:
-                timeMark += j
-        # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
-        # add data to table
-        values = (cars, truck, buses, motorcycles, bicycles, timeMark)
-        dbConnect.insert_data_into_table("vehicledetection", values)
-        # dbConnect.create_line_graph()
+    # for i in resultList:
+    #     print(i)
+    #     cars = 0
+    #     truck = 0
+    #     buses = 0
+    #     motorcycles = 0
+    #     bicycles = 0
+    #     timeMark = ""
+    #     tokens = [x.strip() for x in i.split(',')]
+    #     for j in tokens:
+    #         if "car" in j:
+    #             cars += int(j[:2])
+    #         elif "truck" in j:
+    #             truck += int(j[:2])
+    #         elif "bus" in j:
+    #             buses += int(j[:2])
+    #         elif "motorcycle" in j:
+    #             motorcycles += int(j[:2])
+    #         elif "bicycle" in j:
+    #             bicycles += int(j[:2])
+    #         elif ":" in j:
+    #             timeMark += j
+    #     # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
+    #     # add data to table
+    #     values = (cars, truck, buses, motorcycles, bicycles, timeMark)
+    #     dbConnect.insert_data_into_table("vehicledetection", values)
+    #     # dbConnect.create_line_graph()
 
+    # Create graph and store it in runs folder
     results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
     dbConnect.create_line_graph(results_path)
 
