@@ -31,7 +31,7 @@ def insert_data_into_table(tableName, values):
     # Print the number of rows affected by the SQL query
     # print(mycursor.rowcount, "row(s) affected")
 
-def create_line_graph():
+def create_line_graph(filePath):
     # Execute a query to retrieve the necessary data
     # Take average and make into pretty graph
     cursor = mydb.cursor()
@@ -65,7 +65,7 @@ def create_line_graph():
     ax.set_title('Vehicle Detection')
     ax.legend()
 
-    plt.savefig("detection.png")
+    plt.savefig(filePath + "detection.png")
 
     plt.show()
 

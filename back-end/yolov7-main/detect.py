@@ -242,7 +242,8 @@ def detect(save_img=False):
         dbConnect.insert_data_into_table("vehicledetection", values)
         # dbConnect.create_line_graph()
 
-    dbConnect.create_line_graph()
+    results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
+    dbConnect.create_line_graph(results_path)
 
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
