@@ -19,13 +19,16 @@ fieldset{
 
 /* login items */
 
-/* not yet used
 .banner {
-  padding: 60px;
-  text-align: center;
-  color: white;
-  font-size: 30px;
-} */
+  background-color: #2C4965;
+}
+
+.logo {
+  position: relative;
+  left: 10%;
+  padding: 15px;
+  width: 200px;
+}
 
 .login-form-container {
   width: 100%;
@@ -141,12 +144,16 @@ label {
 
 /* forgot password items  */
 
+.forgot-inp-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 input[type="forgot-input"] {
   background-color: #D9D9D9;
-  width: 93%;
   padding: 12px 20px;
-  margin: auto;
   border: 3px solid #FFFF;
+  width: 80%;
 } 
 
 label[type="forgot-username"] {
@@ -160,12 +167,14 @@ label[type="forgot-username"] {
 }
 
 .forgot-pass-container {
+  margin: auto;
   display: flex;
   flex-direction: column;
   border-radius: 4px;
   border: 2px;
   box-shadow: 0 2px 10px;
   background-color: #FFFF;
+  width: 50%;
 }
 
 .exit {

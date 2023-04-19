@@ -9,6 +9,7 @@ import axios from 'axios';
 
 import eyecon from './images/eye-solid.svg'
 import noEyecon from './images/eye-slash-solid.svg'
+import logo from './images/colas_logo.png'
 
 import "./App.css";
 
@@ -99,6 +100,15 @@ export default function Login() {
     const renderLoginForm = (
 
         <div htmlFor="login-form-container">
+
+            <div className="banner">
+                <img 
+                className='logo'
+                src={logo}
+                alt="colas_logo"
+                />
+            </div>
+
                 <form className="login-form" onSubmit={loginfunc}>
 
                         <div>
@@ -151,11 +161,13 @@ export default function Login() {
                     <div className='forgot-pass-container'>
                         <button className='exit'>X</button>
                         <label type="forgot-username">Please enter your username: </label>
-                        <input
-                            className="forgot-form username"
-                            name="uname"
-                            placeholder="Username"
-                            type="forgot-input" required />
+                        <div className="forgot-inp-wrapper">
+                            <input
+                                className="forgot-form username"
+                                name="uname"
+                                placeholder="Username"
+                                type="forgot-input" required />
+                        </div>
                         <div className="btn-wrapper">
                             <button className="btn-login" type="submit">SUBMIT</button>
                         </div> 
@@ -165,9 +177,9 @@ export default function Login() {
 
     return(
         <div className="login">
-            <div className="login-form-container">
-                {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
-            </div>
+
+            {isSubmitted ? <VideoLiveFeed /> : renderLoginForm}
+
         </div>
     );
 }
