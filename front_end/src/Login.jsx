@@ -67,7 +67,9 @@ export default function Login() {
         const forgotPassword = document.querySelector('.forgotPassword');
         const forgotPassBox = document.querySelector('.forgot-pass-container');
         const notClickableLoginButton = document.querySelector('.btn-login');
-        const inputs = document.querySelector('.input-field');
+        const username = document.querySelector('.username');
+        const password = document.querySelector('.password');
+
         
         const exitButton = document.querySelector('.exit');
         forgotPassBox.style.display = 'none';
@@ -76,14 +78,16 @@ export default function Login() {
             blurBackground.style.filter = 'blur(5px)';
             notClickableLoginButton.style.pointerEvents = 'none';
             forgotPassBox.style.display = 'block';
-            inputs.disabled = true;
+            username.disabled = true;
+            password.disabled = true;
             forgotPassword.style.pointerEvents ='none';
         }
         const unBlurContainers = () => {
             blurBackground.style.filter = 'none';
             notClickableLoginButton.style.pointerEvents = 'auto';
             forgotPassBox.style.display = 'none';
-            inputs.disabled = false;
+            username.disabled = false;
+            password.disabled = false;
             forgotPassword.style.pointerEvents ='auto';
 
         }
@@ -114,7 +118,7 @@ export default function Login() {
                         <div>
                             <label type="username" htmlFor="username"/>
                             <input
-                                className="input-field"
+                                className="login-form username"
                                 name="uname"
                                 placeholder="Username"
                                 type="uname" required
@@ -126,7 +130,7 @@ export default function Login() {
                             <label type="password" htmlFor="password"/>
 
                             <input
-                                className="input-field"
+                                className="login-form password"
                                 name="pw"
                                 placeholder='Password'
                                 type={seePw ? "password":"text"} required
