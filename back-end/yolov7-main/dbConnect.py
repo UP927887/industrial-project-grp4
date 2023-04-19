@@ -4,14 +4,18 @@ from datetime import datetime, timedelta
 
 # Connect to the local MySQL server
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="passwordCCTV123",
-    database="cardetectiondb"
-    # host="aws.connect.psdb.cloud",
-    # username= "40al0qxw0goub120tk8f",
-    # password= "pscale_pw_rKZTzPN4xsCzHkHKFcYv70LleogVcwCrCY9qlelb7rM",
+    # host="localhost",
+    # user="root",
+    # password="passwordCCTV123",
+    # database="cardetectiondb"
+    # host="aws-eu-west-2.connect.psdb.cloud",
+    # username= "l94a31kt8gs9f3lk16y1",
+    # password= "pscale_pw_FALSUhwMAZ50X8qIDoZQdOXuZHtrSABu9PURVkCTFy7",
     # database= "cardetectiondb"
+    host     = "aws.connect.psdb.cloud",
+    user     = "9cn074hxhnuqx3whg562",
+    passwd   = "pscale_pw_WqvxznwE3TftkxupaXVYMDVFlTUOtXyqYRqkX5CJn0s",
+    db       = "cardetectiondb",
 )
 
 # Check if the connection is successful
@@ -77,6 +81,8 @@ def create_line_graph(filePath):
     ax.legend()
 
     plt.savefig(filePath + "detection.png")
+    # plt.savefig("detection.png")
+
 
     plt.show()
 
