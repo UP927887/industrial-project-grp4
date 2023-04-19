@@ -4,10 +4,14 @@ from datetime import datetime, timedelta
 
 # Connect to the local MySQL server
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="passwordCCTV123",
-    database="cardetectiondb"
+    # host="localhost",
+    # user="root",
+    # password="passwordCCTV123",
+    # database="cardetectiondb"
+    host="aws-eu-west-2.connect.psdb.cloud",
+    username= "l94a31kt8gs9f3lk16y1",
+    password= "pscale_pw_FALSUhwMAZ50X8qIDoZQdOXuZHtrSABu9PURVkCTFy7",
+    database= "cardetectiondb"
 )
 
 # Check if the connection is successful
@@ -35,7 +39,14 @@ def create_line_graph(filePath):
     # Execute a query to retrieve the necessary data
     # Take average and make into pretty graph
     cursor = mydb.cursor()
-    cursor.execute("SELECT AVG(cars) as carAvg, AVG(trucks) as trucksAvg, AVG(buses) as busesAvg, AVG(motorcycles) as motorcyclesAvg, AVG(bicycles) as bicyclesAvg, TIME(time) as timeAvg FROM vehicledetection GROUP BY TIME(time)")
+    cursor.execute("""SELECT AVG(cars) as carAvg, 
+                             AVG(trucks) as trucksAvg, 
+                             AVG(buses) as busesAvg, 
+                             AVG(motorcycles) as motorcyclesAvg, 
+                             AVG(bicycles) as bicyclesAvg, 
+                      TIME(time) as timeAvg 
+                      FROM vehicledetection GROUP BY TIME(time)""")
+    # cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection2")
 
     # Fetch the data from the cursor and store it in separate lists for each column
     car = []
