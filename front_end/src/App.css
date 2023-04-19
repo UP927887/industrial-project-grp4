@@ -181,3 +181,7 @@ label[type="forgot-username"] {
   background-color: transparent;
   border: none;
 }
+
+.exit:hover {
+  background-color: lightgray;
+}
