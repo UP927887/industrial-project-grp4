@@ -8,9 +8,9 @@ mydb = mysql.connector.connect(
     # user="root",
     # password="passwordCCTV123",
     # database="cardetectiondb"
-    host="aws-eu-west-2.connect.psdb.cloud",
-    username= "l94a31kt8gs9f3lk16y1",
-    password= "pscale_pw_FALSUhwMAZ50X8qIDoZQdOXuZHtrSABu9PURVkCTFy7",
+    host="aws.connect.psdb.cloud",
+    username= "40al0qxw0goub120tk8f",
+    password= "pscale_pw_rKZTzPN4xsCzHkHKFcYv70LleogVcwCrCY9qlelb7rM",
     database= "cardetectiondb"
 )
 
