@@ -141,13 +141,26 @@ def detect(save_img=False):
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                 
-                # Every 24 frames count as a second
-                if counter%24 == 0:
-                    t_obj = time.localtime(time.mktime(t_obj)+1)
-                fin = time.strftime("%H:%M:%S", t_obj)
-                s += fin
+
+                # Timestamp
+                currentTime = datetime.now()
+                timeToStr = currentTime.strftime("%H:%M:%S")
+                s += timeToStr
                 resultList.append(s)
-                counter +=1
+
+                # startTime = currentTime
+                # timeDiff = (currentTime - startTime).total_seconds()
+                # if timeDiff > 1:
+                    
+                #     s += timeToStr
+                #     resultList.append(s)
+                
+                # if counter%24 == 0:
+                #     t_obj = time.localtime(time.mktime(t_obj)+1)
+                # fin = time.strftime("%H:%M:%S", t_obj)
+                # s += fin
+                # resultList.append(s)
+                # counter +=1
                 # print(resultList)
 
                 # Write results
@@ -202,6 +215,7 @@ def detect(save_img=False):
     # Convert detections into int using string handling
     # (KYLE) Could clean this up? looks messy
     for i in resultList:
+        print(i)
         cars = 0
         truck = 0
         buses = 0
@@ -226,8 +240,10 @@ def detect(save_img=False):
         # add data to table
         values = (cars, truck, buses, motorcycles, bicycles, timeMark)
         dbConnect.insert_data_into_table("vehicledetection", values)
-        dbConnect.create_line_graph()
-            
+        # dbConnect.create_line_graph()
+
+    dbConnect.create_line_graph()
+
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
     # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   

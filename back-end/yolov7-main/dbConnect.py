@@ -33,8 +33,9 @@ def insert_data_into_table(tableName, values):
 
 def create_line_graph():
     # Execute a query to retrieve the necessary data
+    # Take average and make into pretty graph
     cursor = mydb.cursor()
-    cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection")
+    cursor.execute("SELECT AVG(cars) as carAvg, AVG(trucks) as trucksAvg, AVG(buses) as busesAvg, AVG(motorcycles) as motorcyclesAvg, AVG(bicycles) as bicyclesAvg, TIME(time) as timeAvg FROM vehicledetection GROUP BY TIME(time)")
 
     # Fetch the data from the cursor and store it in separate lists for each column
     car = []
@@ -44,12 +45,12 @@ def create_line_graph():
     bicycles = []
     time = []
     for row in cursor.fetchall():
-        car.append(row[1])
-        trucks.append(row[2])
-        buses.append(row[3])
-        motorcycles.append(row[4])
-        bicycles.append(row[5])
-        time_str = str(row[0])
+        car.append(row[0])
+        trucks.append(row[1])
+        buses.append(row[2])
+        motorcycles.append(row[3])
+        bicycles.append(row[4])
+        time_str = str(row[5])
         time.append(datetime.strptime(time_str, '%H:%M:%S'))
 
     # Create a line plot using matplotlib
@@ -59,12 +60,12 @@ def create_line_graph():
     ax.plot(time, buses, label='Buses')
     ax.plot(time, motorcycles, label='Motorcycles')
     ax.plot(time, bicycles, label='Bicycles')
-    ax.set_xlabel('Time')
-    ax.set_ylabel('Count')
+    ax.set_xlabel('Time (seconds)')
+    ax.set_ylabel('Count (Average)')
     ax.set_title('Vehicle Detection')
     ax.legend()
 
-    plt.savefig("./back-end/run graphs/detection.png")
+    plt.savefig("detection.png")
 
     plt.show()
 
