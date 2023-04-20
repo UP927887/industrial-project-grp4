@@ -69,12 +69,21 @@ export default function Login() {
         const notClickableLoginButton = document.querySelector('.btn-login');
         const username = document.querySelector('.username');
         const password = document.querySelector('.password');
+        const imageSelector = document.querySelector('.banner');
+        // const body = document.querySelector('body');
+        // const children = body.querySelectorAll(':scope > :not(.forgot-pass-container)');
 
+        // IMPORTANT NOTE: TRY TO USE THE QUERYSELECTORALL TO SELECT ALL THE CHILDREN OF THE BODY ELEMENT. helps reduce lines of code when trying to blur
         
         const exitButton = document.querySelector('.exit');
         forgotPassBox.style.display = 'none';
 
         const blurContainers = () => {
+            // for(let i = 0; i < children.length; i++){
+            //     children[i].style.filter = 'blur(5px)';
+            // }
+            // document.querySelectorAll('body >*:not(.forgot-pass-container)').forEach(e => e.style.filter = "blur(2px)");
+            imageSelector.style.filter = "blur(5px)";
             blurBackground.style.filter = 'blur(5px)';
             notClickableLoginButton.style.pointerEvents = 'none';
             forgotPassBox.style.display = 'block';
@@ -83,6 +92,7 @@ export default function Login() {
             forgotPassword.style.pointerEvents ='none';
         }
         const unBlurContainers = () => {
+            imageSelector.style.filter = 'none';
             blurBackground.style.filter = 'none';
             notClickableLoginButton.style.pointerEvents = 'auto';
             forgotPassBox.style.display = 'none';
@@ -91,6 +101,7 @@ export default function Login() {
             forgotPassword.style.pointerEvents ='auto';
 
         }
+
         exitButton.addEventListener('click', unBlurContainers);
         document.addEventListener('keydown', (event) => {
             if (event.code === 'Escape' && forgotPassBox.style.display === 'block'){
@@ -102,7 +113,7 @@ export default function Login() {
     }, []);
 
     const renderLoginForm = (
-
+        
         <div htmlFor="login-form-container">
 
             <div className="banner">
