@@ -26,6 +26,8 @@ import dbConnect
 ## Requires a dataset to run
 
 def detect(save_img=False):
+    dbConnect.resetTable("vehicledetection")
+
     source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
     save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
@@ -173,7 +175,7 @@ def detect(save_img=False):
                             timeMark += j
                     # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
                     # add data to table
-                    values = (cars, truck, buses, motorcycles, bicycles, timeMark)
+                    values = (fileName, cars, truck, buses, motorcycles, bicycles, timeMark)
                     dbConnect.insert_data_into_table("vehicledetection", values)
 
                 # startTime = currentTime

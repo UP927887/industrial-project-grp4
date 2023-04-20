@@ -28,7 +28,7 @@ def insert_data_into_table(tableName, values):
     mycursor = mydb.cursor()
 
     # Construct the SQL query to insert data into the table
-    sql = "INSERT INTO " + tableName + " (cars, trucks, buses, motorcycles, bicycles, time) VALUES (%s, %s, %s, %s, %s, %s)"
+    sql = "INSERT INTO " + tableName + " (source, cars, trucks, buses, motorcycles, bicycles, time) VALUES (%s,%s, %s, %s, %s, %s, %s)"
 
     # Execute the SQL query with the provided values
     mycursor.execute(sql, values)
@@ -43,7 +43,7 @@ def create_line_graph(filePath):
     # Execute a query to retrieve the necessary data
     # Take average and make into pretty graph
     cursor = mydb.cursor()
-    cursor.execute("""SELECT AVG(cars) as carAvg, 
+    cursor.execute("""SELECT AVG(cars) as carAvg,
                              AVG(trucks) as trucksAvg, 
                              AVG(buses) as busesAvg, 
                              AVG(motorcycles) as motorcyclesAvg, 
@@ -65,8 +65,8 @@ def create_line_graph(filePath):
         buses.append(row[2])
         motorcycles.append(row[3])
         bicycles.append(row[4])
-        time_str = str(row[5])
-        time.append(datetime.strptime(time_str, '%H:%M:%S'))
+        time.append(row[5])
+        # time.append(datetime.strptime(time_str, '%H:%M:%S'))
 
     # Create a line plot using matplotlib
     fig, ax = plt.subplots(figsize = (12, 6))
@@ -88,3 +88,20 @@ def create_line_graph(filePath):
     # Close the cursor and database connection
     cursor.close()
     mydb.close()
+
+# Reset table before run
+def resetTable(tableName):
+    resetCursor = mydb.cursor()
+
+    # Delete existing code in table
+    deleteSql = "DELETE FROM " + tableName
+    resetCursor.execute(deleteSql)
+    print("Deleted existing data")
+
+    # Rset detectionID to 1
+    resetAutoInt = "ALTER TABLE " + tableName + " AUTO_INCREMENT = 1"
+    resetCursor.execute(resetAutoInt)
+    print("Auto Increment set to 1")
+
+    mydb.commit()
+    print("Reset OK")
