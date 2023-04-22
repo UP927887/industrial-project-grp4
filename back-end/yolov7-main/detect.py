@@ -26,8 +26,6 @@ import dbConnect
 ## Requires a dataset to run
 
 def detect(save_img=False):
-    dbConnect.resetTable("vehicledetection")
-
     source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
     save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
@@ -82,10 +80,10 @@ def detect(save_img=False):
 
     ## Get file name from parser
     print("file name",opt.source)
-    fileName = opt.source
-    ti_m = os.path.getctime(fileName)
-    t_obj = time.localtime(ti_m)
-    counter = 0
+    fileSource = str(opt.source)
+    fileName = fileSource.replace("\\","/")
+    print("file name",fileName)
+    dbConnect.resetSource(fileName, "vehicledetection")
 
     for path, img, im0s, vid_cap in dataset:
         # Initialise Results List
@@ -152,7 +150,6 @@ def detect(save_img=False):
 
                 # Append data to database
                 for i in resultList:
-                    print(i)
                     cars = 0
                     truck = 0
                     buses = 0
@@ -173,25 +170,9 @@ def detect(save_img=False):
                             bicycles += int(j[:2])
                         elif ":" in j:
                             timeMark += j
-                    # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
                     # add data to table
                     values = (fileName, cars, truck, buses, motorcycles, bicycles, timeMark)
                     dbConnect.insert_data_into_table("vehicledetection", values)
-
-                # startTime = currentTime
-                # timeDiff = (currentTime - startTime).total_seconds()
-                # if timeDiff > 1:
-                    
-                #     s += timeToStr
-                #     resultList.append(s)
-                
-                # if counter%24 == 0:
-                #     t_obj = time.localtime(time.mktime(t_obj)+1)
-                # fin = time.strftime("%H:%M:%S", t_obj)
-                # s += fin
-                # resultList.append(s)
-                # counter +=1
-                # print(resultList)
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
@@ -238,39 +219,6 @@ def detect(save_img=False):
         print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
-
-    # Initialise final list to write to file
-    numResultList = []
-
-    # Convert detections into int using string handling
-    # (KYLE) Could clean this up? looks messy
-    # for i in resultList:
-    #     print(i)
-    #     cars = 0
-    #     truck = 0
-    #     buses = 0
-    #     motorcycles = 0
-    #     bicycles = 0
-    #     timeMark = ""
-    #     tokens = [x.strip() for x in i.split(',')]
-    #     for j in tokens:
-    #         if "car" in j:
-    #             cars += int(j[:2])
-    #         elif "truck" in j:
-    #             truck += int(j[:2])
-    #         elif "bus" in j:
-    #             buses += int(j[:2])
-    #         elif "motorcycle" in j:
-    #             motorcycles += int(j[:2])
-    #         elif "bicycle" in j:
-    #             bicycles += int(j[:2])
-    #         elif ":" in j:
-    #             timeMark += j
-    #     # numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
-    #     # add data to table
-    #     values = (cars, truck, buses, motorcycles, bicycles, timeMark)
-    #     dbConnect.insert_data_into_table("vehicledetection", values)
-    #     # dbConnect.create_line_graph()
 
     # Create graph and store it in runs folder
     results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt

@@ -89,19 +89,34 @@ def create_line_graph(filePath):
     cursor.close()
     mydb.close()
 
-# Reset table before run
-def resetTable(tableName):
-    resetCursor = mydb.cursor()
-
-    # Delete existing code in table
-    deleteSql = "DELETE FROM " + tableName
-    resetCursor.execute(deleteSql)
-    print("Deleted existing data")
-
-    # Rset detectionID to 1
-    resetAutoInt = "ALTER TABLE " + tableName + " AUTO_INCREMENT = 1"
-    resetCursor.execute(resetAutoInt)
-    print("Auto Increment set to 1")
-
+def resetSource(sourceNm, tableNm):
+    sourceCursor = mydb.cursor()
+    srcSql = "SELECT * FROM "+ tableNm+" where source like '"+ sourceNm + "'"
+    sourceCursor.execute(srcSql)
+    res = sourceCursor.fetchall()
+    if not res:
+        print("No existing data in "+tableNm)
+    else:
+        sourceDel = "DELETE FROM " + tableNm + " WHERE source like '" + sourceNm + "'"
+        sourceCursor.execute(sourceDel)
+        print(sourceNm + " records deleted")
     mydb.commit()
-    print("Reset OK")
+
+
+
+# # Reset table before run
+# def resetTable(tableName):
+#     resetCursor = mydb.cursor()
+
+#     # Delete existing code in table
+#     deleteSql = "DELETE FROM " + tableName
+#     resetCursor.execute(deleteSql)
+#     print("Deleted existing data")
+
+#     # Rset detectionID to 1
+#     resetAutoInt = "ALTER TABLE " + tableName + " AUTO_INCREMENT = 1"
+#     resetCursor.execute(resetAutoInt)
+#     print("Auto Increment set to 1")
+
+#     mydb.commit()
+#     print("Reset OK")
