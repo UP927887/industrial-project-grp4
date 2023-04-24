@@ -1,7 +1,6 @@
 import mysql.connector
 import matplotlib.pyplot as plt
 import matplotlib
-import matplotlib.animation as animation
 from datetime import datetime, timedelta
 
 # Initialise frame and change matplotlib to a GUI friendly version
@@ -10,6 +9,7 @@ fig, ax = plt.subplots(figsize = (12, 6))
 
 # Connect to the local MySQL server
 mydb = mysql.connector.connect(
+    
     # Local database
     # host="localhost",
     # user="root",
@@ -43,56 +43,6 @@ def insert_data_into_table(tableName, values):
 
     # Print the number of rows affected by the SQL query
     # print(mycursor.rowcount, "row(s) affected")
-
-# def create_line_graph(filePath):
-#     # Execute a query to retrieve the necessary data
-#     # Take average and make into pretty graph
-#     cursor = mydb.cursor()
-#     cursor.execute("""SELECT AVG(cars) as carAvg,
-#                              AVG(trucks) as trucksAvg, 
-#                              AVG(buses) as busesAvg, 
-#                              AVG(motorcycles) as motorcyclesAvg, 
-#                              AVG(bicycles) as bicyclesAvg, 
-#                       TIME(time) as timeAvg 
-#                       FROM vehicledetection GROUP BY TIME(time)""")
-#     # cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection2")
-
-#     # Fetch the data from the cursor and store it in separate lists for each column
-#     car = []
-#     trucks = []
-#     buses = []
-#     motorcycles = []
-#     bicycles = []
-#     time = []
-#     for row in cursor.fetchall():
-#         car.append(row[0])
-#         trucks.append(row[1])
-#         buses.append(row[2])
-#         motorcycles.append(row[3])
-#         bicycles.append(row[4])
-#         time.append(row[5])
-#         # time.append(datetime.strptime(time_str, '%H:%M:%S'))
-
-#     # Create a line plot using matplotlib
-#     fig, ax = plt.subplots(figsize = (12, 6))
-#     ax.plot(time, car, label='Cars')
-#     ax.plot(time, trucks, label='Trucks')
-#     ax.plot(time, buses, label='Buses')
-#     ax.plot(time, motorcycles, label='Motorcycles')
-#     ax.plot(time, bicycles, label='Bicycles')
-#     ax.set_xlabel('Time (seconds)')
-#     ax.set_ylabel('Count (Average)')
-#     ax.set_title('Vehicle Detection')
-#     ax.legend()
-
-#     plt.savefig(filePath + "detection.png")
-#     # plt.savefig("detection.png")
-
-#     plt.show()
-
-#     # Close the cursor and database connection
-#     cursor.close()
-#     mydb.close()
 
 # Live update graph based on create_line_graph code
 def drawGraph(sourceName):
@@ -155,6 +105,56 @@ def resetSource(sourceNm, tableNm):
         sourceCursor.execute(sourceDel)
         print(sourceNm + " records deleted")
     mydb.commit()
+
+# def create_line_graph(filePath):
+#     # Execute a query to retrieve the necessary data
+#     # Take average and make into pretty graph
+#     cursor = mydb.cursor()
+#     cursor.execute("""SELECT AVG(cars) as carAvg,
+#                              AVG(trucks) as trucksAvg, 
+#                              AVG(buses) as busesAvg, 
+#                              AVG(motorcycles) as motorcyclesAvg, 
+#                              AVG(bicycles) as bicyclesAvg, 
+#                       TIME(time) as timeAvg 
+#                       FROM vehicledetection GROUP BY TIME(time)""")
+#     # cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection2")
+
+#     # Fetch the data from the cursor and store it in separate lists for each column
+#     car = []
+#     trucks = []
+#     buses = []
+#     motorcycles = []
+#     bicycles = []
+#     time = []
+#     for row in cursor.fetchall():
+#         car.append(row[0])
+#         trucks.append(row[1])
+#         buses.append(row[2])
+#         motorcycles.append(row[3])
+#         bicycles.append(row[4])
+#         time.append(row[5])
+#         # time.append(datetime.strptime(time_str, '%H:%M:%S'))
+
+#     # Create a line plot using matplotlib
+#     fig, ax = plt.subplots(figsize = (12, 6))
+#     ax.plot(time, car, label='Cars')
+#     ax.plot(time, trucks, label='Trucks')
+#     ax.plot(time, buses, label='Buses')
+#     ax.plot(time, motorcycles, label='Motorcycles')
+#     ax.plot(time, bicycles, label='Bicycles')
+#     ax.set_xlabel('Time (seconds)')
+#     ax.set_ylabel('Count (Average)')
+#     ax.set_title('Vehicle Detection')
+#     ax.legend()
+
+#     plt.savefig(filePath + "detection.png")
+#     # plt.savefig("detection.png")
+
+#     plt.show()
+
+#     # Close the cursor and database connection
+#     cursor.close()
+#     mydb.close()
 
 # # Reset table before run
 # def resetTable(tableName):

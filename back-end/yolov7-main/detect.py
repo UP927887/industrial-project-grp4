@@ -226,8 +226,6 @@ def detect(save_img=False):
     dbConnect.saveGraph(results_path)
 
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
-    # (KYLE) May need to look at this again incase we want more data stored
-    # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   
     # results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
     
     # with open(results_path +'.txt', 'x') as fp:
@@ -254,13 +252,6 @@ def detect(save_img=False):
     
     # df = pd.read_csv(results_path +'.txt', sep=",")
     # df.to_csv(results_path +'.csv', index=None)
-    
-    #Create graph and save it as png (obviously would need to modify make it nicer)
-    # graph = pd.read_csv(results_path +'.csv')
-    # print(graph.head())
-    # graph.plot()
-    # plt.savefig(results_path +'.png')
-
 #############################################################################
 ############################################################################# 
 
