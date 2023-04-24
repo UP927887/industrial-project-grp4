@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 from datetime import datetime
 
-
 import csv
 import cv2
 import torch
@@ -21,6 +20,8 @@ from utils.general import check_img_size, check_requirements, check_imshow, non_
     scale_coords, xyxy2xywh, strip_optimizer, set_logging, increment_path
 from utils.plots import plot_one_box
 from utils.torch_utils import select_device, load_classifier, time_synchronized, TracedModel
+
+import dbConnect
 
 ## Requires a dataset to run
 
@@ -75,19 +76,19 @@ def detect(save_img=False):
     old_img_w = old_img_h = imgsz
     old_img_b = 1
 
-    # Initialise Results List
-    resultList = []
-
     t0 = time.time()
 
     ## Get file name from parser
-    # print("file name",opt.source)
-    # fileName = opt.source
-    # ti_m = os.path.getctime(fileName)
-    # t_obj = time.localtime(ti_m)
-    # counter = 0
+    print("file name",opt.source)
+    fileSource = str(opt.source)
+    fileName = fileSource.replace("\\","/")
+    print("file name",fileName)
+    dbConnect.resetSource(fileName, "vehicledetection")
 
     for path, img, im0s, vid_cap in dataset:
+        # Initialise Results List
+        resultList = []
+
         img = torch.from_numpy(img).to(device)
         img = img.half() if half else img.float()  # uint8 to fp16/32
         img /= 255.0  # 0 - 255 to 0.0 - 1.0
@@ -142,20 +143,39 @@ def detect(save_img=False):
                     n = (det[:, -1] == c).sum()  # detections per class
                     s += f"{n} {names[int(c)]}{'s' * (n > 1)}, "  # add to string
                 
-                # Every 24 frames count as a second
-                # if counter%24 == 0:
-                #     t_obj = time.localtime(time.mktime(t_obj)+1)
 
-                ## Only append if currentTime is greater than startTime (at least 1 second)
+                # Timestamp
                 currentTime = datetime.now()
-                if currentTime > startTime:
-                    timeToStr = currentTime.strftime("%H:%M:%S")
-                    s += timeToStr
-                    resultList.append(s)
-                startTime = currentTime
+                timeToStr = currentTime.strftime("%H:%M:%S")
+                s += timeToStr
+                resultList.append(s)
 
-                # counter +=1
-                # print(resultList)
+                # Append data to database
+                for i in resultList:
+                    cars = 0
+                    truck = 0
+                    buses = 0
+                    motorcycles = 0
+                    bicycles = 0
+                    timeMark = ""
+                    tokens = [x.strip() for x in i.split(',')]
+                    for j in tokens:
+                        if "car" in j:
+                            cars += int(j[:2])
+                        elif "truck" in j:
+                            truck += int(j[:2])
+                        elif "bus" in j:
+                            buses += int(j[:2])
+                        elif "motorcycle" in j:
+                            motorcycles += int(j[:2])
+                        elif "bicycle" in j:
+                            bicycles += int(j[:2])
+                        elif ":" in j:
+                            timeMark += j
+                    # add data to table
+                    values = (fileName, cars, truck, buses, motorcycles, bicycles, timeMark)
+                    dbConnect.insert_data_into_table("vehicledetection", values)
+                    dbConnect.drawGraph(fileName)
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
@@ -203,67 +223,37 @@ def detect(save_img=False):
 
     print(f'Done. ({time.time() - t0:.3f}s)')
 
-    # Initialise final list to write to file
-    numResultList = []
-
-    # Convert detections into int using string handling
-    # (KYLE) Could clean this up? looks messy
-    for i in resultList:
-        cars = 0
-        truck = 0
-        buses = 0
-        motorcycles = 0
-        bicycles = 0
-        timeMark = ""
-        tokens = [x.strip() for x in i.split(',')]
-        for j in tokens:
-            if "car" in j:
-                cars += int(j[:2])
-            elif "truck" in j:
-                truck += int(j[:2])
-            elif "bus" in j:
-                buses += int(j[:2])
-            elif "motorcycle" in j:
-                motorcycles += int(j[:2])
-            elif "bicycle" in j:
-                bicycles += int(j[:2])
-            elif ":" in j:
-                timeMark += j
-        numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
-            
-    # If file doesn't exist, create a new one. If existing data is present, overwrite data
-    # (KYLE) May need to look at this again incase we want more data stored
-    # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   
+    # Create graph and store it in runs folder
     results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
-    
-    with open(results_path +'.txt', 'x') as fp:
-        fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
-        for i in numResultList:
-            fp.write("%s" % i)
-            fp.write(",\n")
-        print("Finished writing to file")
+    dbConnect.saveGraph(results_path)
 
-    fp.close()
-    # Remove brackets from file and convert to CSV
-    with open(results_path +'.txt', 'r') as fp:
-        data = fp.read()
+    # If file doesn't exist, create a new one. If existing data is present, overwrite data
+    # results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
+    
+    # with open(results_path +'.txt', 'x') as fp:
+    #     fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
+    #     o = 0
+    #     for i in numResultList:
+    #         if(o % 50==0):
+    #             fp.write("%s" % i)
+    #             fp.write(",\n")
+    #         o +=1
+    #     print("Finished writing to file")
+
+    # fp.close()
+    # # Remove brackets from file and convert to CSV
+    # with open(results_path +'.txt', 'r') as fp:
+    #     data = fp.read()
         
-    data = data.replace('[', '')
-    data = data.replace(']', '')
+    # data = data.replace('[', '')
+    # data = data.replace(']', '')
 
-    with open(results_path +'.txt', 'w') as fp:
-        fp.write(data)
-    fp.close()
+    # with open(results_path +'.txt', 'w') as fp:
+    #     fp.write(data)
+    # fp.close()
     
-    df = pd.read_csv(results_path +'.txt', sep=",")
-    df.to_csv(results_path +'.csv', index=None)
-    
-    #Create graph and save it as png (obviously would need to modify make it nicer)
-    graph = pd.read_csv(results_path +'.csv')
-    print(graph.head())
-    graph.plot()
-    plt.savefig(results_path +'.png')
-
+    # df = pd.read_csv(results_path +'.txt', sep=",")
+    # df.to_csv(results_path +'.csv', index=None)
 #############################################################################
 ############################################################################# 
 

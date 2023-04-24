@@ -1,0 +1,59 @@
+.live-feed-box {
+    position: absolute;
+    left: 0;
+    height: 99%;
+    width: 79%;
+    /* border: 2px white solid; */
+    background: #808080;
+    margin: 5px;
+}
+
+.summary {
+    position: absolute;
+    right: 0;
+    height: 90%;
+    width: 20%;
+    /* border: 2px red solid; */
+    background: grey;
+    margin: 5px;
+}
+
+.more-data {
+    position: absolute;
+    bottom: 10px;
+    right: 60px;
+    /* left: 40px; */
+    font-size: 16px;
+    text-align: center;
+}
+
+table{
+    border: 1px solid white;
+}
+
+td {
+    border: 1px solid white;
+}
+
+.summary-table-count, .summary-table-time{
+    margin: 0 auto;
+    width: 99%;
+}
+
+
+#car {
+    padding: 10px;
+}
+
+.lol {
+    /* border: 2px red solid; */
+    width: 120%;
+    
+}
+
+.kyle {
+    background-color: purple;
+    padding: 25rem;
+    margin: 0 auto;
+}
+
