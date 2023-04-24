@@ -1,17 +1,22 @@
 import mysql.connector
 import matplotlib.pyplot as plt
+import matplotlib
+import matplotlib.animation as animation
 from datetime import datetime, timedelta
+
+# Initialise frame and change matplotlib to a GUI friendly version
+matplotlib.use('tkagg')
+fig, ax = plt.subplots(figsize = (12, 6))
 
 # Connect to the local MySQL server
 mydb = mysql.connector.connect(
+    # Local database
     # host="localhost",
     # user="root",
     # password="passwordCCTV123",
     # database="cardetectiondb"
-    # host="aws-eu-west-2.connect.psdb.cloud",
-    # username= "l94a31kt8gs9f3lk16y1",
-    # password= "pscale_pw_FALSUhwMAZ50X8qIDoZQdOXuZHtrSABu9PURVkCTFy7",
-    # database= "cardetectiondb"
+
+    # CLoud database
     host     = "aws.connect.psdb.cloud",
     user     = "1f2h83aw1aylj5fddd0w",
     passwd   = "psc" + "ale" + "_pw_ltczh" + "RemZgYM" + "s8MQH" + "a7hc5T" + "6UT3PRM" + "YUVwvA" + "Vp6sLQN",
@@ -39,19 +44,67 @@ def insert_data_into_table(tableName, values):
     # Print the number of rows affected by the SQL query
     # print(mycursor.rowcount, "row(s) affected")
 
-def create_line_graph(filePath):
-    # Execute a query to retrieve the necessary data
-    # Take average and make into pretty graph
-    cursor = mydb.cursor()
-    cursor.execute("""SELECT AVG(cars) as carAvg,
+# def create_line_graph(filePath):
+#     # Execute a query to retrieve the necessary data
+#     # Take average and make into pretty graph
+#     cursor = mydb.cursor()
+#     cursor.execute("""SELECT AVG(cars) as carAvg,
+#                              AVG(trucks) as trucksAvg, 
+#                              AVG(buses) as busesAvg, 
+#                              AVG(motorcycles) as motorcyclesAvg, 
+#                              AVG(bicycles) as bicyclesAvg, 
+#                       TIME(time) as timeAvg 
+#                       FROM vehicledetection GROUP BY TIME(time)""")
+#     # cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection2")
+
+#     # Fetch the data from the cursor and store it in separate lists for each column
+#     car = []
+#     trucks = []
+#     buses = []
+#     motorcycles = []
+#     bicycles = []
+#     time = []
+#     for row in cursor.fetchall():
+#         car.append(row[0])
+#         trucks.append(row[1])
+#         buses.append(row[2])
+#         motorcycles.append(row[3])
+#         bicycles.append(row[4])
+#         time.append(row[5])
+#         # time.append(datetime.strptime(time_str, '%H:%M:%S'))
+
+#     # Create a line plot using matplotlib
+#     fig, ax = plt.subplots(figsize = (12, 6))
+#     ax.plot(time, car, label='Cars')
+#     ax.plot(time, trucks, label='Trucks')
+#     ax.plot(time, buses, label='Buses')
+#     ax.plot(time, motorcycles, label='Motorcycles')
+#     ax.plot(time, bicycles, label='Bicycles')
+#     ax.set_xlabel('Time (seconds)')
+#     ax.set_ylabel('Count (Average)')
+#     ax.set_title('Vehicle Detection')
+#     ax.legend()
+
+#     plt.savefig(filePath + "detection.png")
+#     # plt.savefig("detection.png")
+
+#     plt.show()
+
+#     # Close the cursor and database connection
+#     cursor.close()
+#     mydb.close()
+
+# Live update graph based on create_line_graph code
+def drawGraph(sourceName):
+    graphCursor = mydb.cursor()
+    graphCursor.execute("""SELECT AVG(cars) as carAvg,
                              AVG(trucks) as trucksAvg, 
                              AVG(buses) as busesAvg, 
                              AVG(motorcycles) as motorcyclesAvg, 
                              AVG(bicycles) as bicyclesAvg, 
                       TIME(time) as timeAvg 
-                      FROM vehicledetection GROUP BY TIME(time)""")
-    # cursor.execute("SELECT cars, trucks, buses, motorcycles, bicycles, time FROM vehicledetection2")
-
+                      FROM vehicledetection WHERE source like '"""+ sourceName +"""' GROUP BY TIME(time)""")
+    
     # Fetch the data from the cursor and store it in separate lists for each column
     car = []
     trucks = []
@@ -59,17 +112,17 @@ def create_line_graph(filePath):
     motorcycles = []
     bicycles = []
     time = []
-    for row in cursor.fetchall():
+    for row in graphCursor.fetchall():
         car.append(row[0])
         trucks.append(row[1])
         buses.append(row[2])
         motorcycles.append(row[3])
         bicycles.append(row[4])
-        time.append(row[5])
-        # time.append(datetime.strptime(time_str, '%H:%M:%S'))
+        time_str = str(row[5])
+        time.append(datetime.strptime(time_str, '%H:%M:%S'))
 
-    # Create a line plot using matplotlib
-    fig, ax = plt.subplots(figsize = (12, 6))
+    # Clears figure or else
+    ax.clear()
     ax.plot(time, car, label='Cars')
     ax.plot(time, trucks, label='Trucks')
     ax.plot(time, buses, label='Buses')
@@ -80,15 +133,16 @@ def create_line_graph(filePath):
     ax.set_title('Vehicle Detection')
     ax.legend()
 
-    plt.savefig(filePath + "detection.png")
-    # plt.savefig("detection.png")
+    # Displays graph on screen
+    plt.draw()
+    plt.pause(0.0001)
 
-    plt.show()
-
-    # Close the cursor and database connection
-    cursor.close()
+# Save graph to runs folder after execution
+def saveGraph(filePath):
+    plt.savefig(filePath + "detections.png")
     mydb.close()
 
+# Clear database of existing source
 def resetSource(sourceNm, tableNm):
     sourceCursor = mydb.cursor()
     srcSql = "SELECT * FROM "+ tableNm+" where source like '"+ sourceNm + "'"
@@ -101,8 +155,6 @@ def resetSource(sourceNm, tableNm):
         sourceCursor.execute(sourceDel)
         print(sourceNm + " records deleted")
     mydb.commit()
-
-
 
 # # Reset table before run
 # def resetTable(tableName):

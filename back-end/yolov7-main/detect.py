@@ -173,6 +173,7 @@ def detect(save_img=False):
                     # add data to table
                     values = (fileName, cars, truck, buses, motorcycles, bicycles, timeMark)
                     dbConnect.insert_data_into_table("vehicledetection", values)
+                    dbConnect.drawGraph(fileName)
 
                 # Write results
                 for *xyxy, conf, cls in reversed(det):
@@ -222,7 +223,7 @@ def detect(save_img=False):
 
     # Create graph and store it in runs folder
     results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
-    dbConnect.create_line_graph(results_path)
+    dbConnect.saveGraph(results_path)
 
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored

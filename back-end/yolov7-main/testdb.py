@@ -1,3 +1,3 @@
 import dbConnect
 
-dbConnect.create_line_graph()
+dbConnect.drawGraph('./trafficVidEdited.mp4')
