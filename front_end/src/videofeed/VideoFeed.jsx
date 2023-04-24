@@ -24,6 +24,7 @@ export const VideoLiveFeed = () => {
 
     return(
         <div>
+            <div class="cameras"></div>
             <div class='live-feed-box'>
                 {/* <button class="kyle">SUBMIT</button> */}
                 
