@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router } from 'react-router-dom';
 
 import "./Livefeed.css";
+import {MoreData} from '../moredata/data';
 
 export const VideoLiveFeed = () => {
     // window.location.href = '../videofeed';
@@ -23,75 +24,101 @@ export const VideoLiveFeed = () => {
     };
 
     return(
-        <div>
-            <div class="cameras"></div>
-            <div class='live-feed-box'>
+
+            <div className='live-feed-box'>
                 {/* <button class="kyle">SUBMIT</button> */}
-                
-                <video src={src} controls width="100%">
-                    Sorry, your browser doesn't support embedded videos.
-                </video>
 
-                <input type="file" onChange={handleChange} />
+                <div className="videos">
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
 
-                <button type='Sumbit'>
-                    Run Detection Program
-                </button>
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+                </div>
+
+                <div class="options-container">
+
+                    <input class="" type="file" onChange={handleChange} />
+                    
+                    <button className="btn-login" type='submit'>
+                        Run Detection Program
+                    </button>   
+
+                </div>
+
+                <div class='summary'>
+                    <table class = "summary-table-count">
+                        <tr id = 'rows'>
+                            <th id='car'>Category</th>
+                            <th class='count'>Count</th>
+                        </tr>
+                        <tr>
+                            <td>Truck</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>Car</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>Bike</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>Motorbike</td>
+                            <td>8</td>
+                        </tr>
+                        <tr>
+                            <td>Bus</td>
+                            <td>8</td>
+                        </tr>
+                    </table>
+                    <table class="summary-table-time">
+                        {/* <div class = 'lol'> */}
+                        <tr id = 'rows'>
+                            <th id='car'>Car Type</th>
+                            <th class='timestamp'>Video Stamp</th>
+                        </tr>
+                        <tr id = 'rows'>
+                            <td>Truck</td>
+                            <td>9th Janury 2022 12:09:11</td>
+                        </tr>
+                        <tr id = 'rows'>
+                            <td>Car</td>
+                            <td>8th Janury 2022 12:09:11</td>
+                        </tr>
+                        <tr id = 'rows'>
+                            <td>Bike</td>
+                            <td>9th Janury 2022 12:09:11</td>
+                        </tr>
+                        <tr id = 'rows'>
+                            <td>Truck</td>
+                            <td>9th Janury 2022 12:09:11</td>
+                        </tr>
+                        {/* </div> */}
+                    </table>
+
+                </div>
+
+                <div className='btn-wrapper'>
+                        <button 
+                        className='btn-login' 
+                        type='more-data' 
+                        >
+                            More Data
+                        </button>
+                </div>
+
             </div>
-
-            <div class='summary'>
-                <table class = "summary-table-count">
-                    <tr id = 'rows'>
-                        <th id='car'>Category</th>
-                        <th class='count'>Count</th>
-                    </tr>
-                    <tr>
-                        <td>Truck</td>
-                        <td>8</td>
-                    </tr>
-                    <tr>
-                        <td>Car</td>
-                        <td>8</td>
-                    </tr>
-                    <tr>
-                        <td>Bike</td>
-                        <td>8</td>
-                    </tr>
-                    <tr>
-                        <td>Motorbike</td>
-                        <td>8</td>
-                    </tr>
-                    <tr>
-                        <td>Bus</td>
-                        <td>8</td>
-                    </tr>
-                </table>
-                <table class="summary-table-time">
-                    {/* <div class = 'lol'> */}
-                    <tr id = 'rows'>
-                        <th id='car'>Car Type</th>
-                        <th class='timestamp'>Video Stamp</th>
-                    </tr>
-                    <tr id = 'rows'>
-                        <td>Truck</td>
-                        <td>9th Janury 2022 12:09:11</td>
-                    </tr>
-                    <tr id = 'rows'>
-                        <td>Car</td>
-                        <td>8th Janury 2022 12:09:11</td>
-                    </tr>
-                    <tr id = 'rows'>
-                        <td>Bike</td>
-                        <td>9th Janury 2022 12:09:11</td>
-                    </tr>
-                    <tr id = 'rows'>
-                        <td>Truck</td>
-                        <td>9th Janury 2022 12:09:11</td>
-                    </tr>
-                    {/* </div> */}
-                </table>
-            </div>
-            <button class='more-data'>More Data</button>
-        </div>
     )
 }
