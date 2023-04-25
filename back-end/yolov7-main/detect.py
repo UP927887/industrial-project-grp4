@@ -129,6 +129,14 @@ def detect(save_img=False):
             save_path = str(save_dir / p.name)  # img.jpg
             txt_path = str(save_dir / 'labels' / p.stem) + ('' if dataset.mode == 'image' else f'_{frame}')  # img.txt
             gn = torch.tensor(im0.shape)[[1, 0, 1, 0]]  # normalization gain whwh
+
+            results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
+            fp = open(results_path + ".txt", "w")
+            fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
+            fp.close()
+            
+            tempList = []
+
             if len(det):
                 # Rescale boxes from img_size to im0 size
                 det[:, :4] = scale_coords(img.shape[2:], det[:, :4], im0.shape).round()
@@ -151,8 +159,31 @@ def detect(save_img=False):
                 if currentTime > startTime:
                     timeToStr = currentTime.strftime("%H:%M:%S")
                     s += timeToStr
-                    resultList.append(s)
+                    tempList.append(s)
                 startTime = currentTime
+
+                for i in tempList:
+                    cars = 0
+                    truck = 0
+                    buses = 0
+                    motorcycles = 0
+                    bicycles = 0
+                    timeMark = ""
+                    tokens = [x.strip() for x in i.split(',')]
+                    for j in tokens:
+                        if "car" in j:
+                            cars += int(j[:2])
+                        elif "truck" in j:
+                            truck += int(j[:2])
+                        elif "bus" in j:
+                            buses += int(j[:2])
+                        elif "motorcycle" in j:
+                            motorcycles += int(j[:2])
+                        elif "bicycle" in j:
+                            bicycles += int(j[:2])
+                        elif ":" in j:
+                            timeMark += j
+                    writeToFile(results_path,[cars,truck,buses,motorcycles,bicycles, timeMark])
 
                 # counter +=1
                 # print(resultList)
@@ -208,42 +239,42 @@ def detect(save_img=False):
 
     # Convert detections into int using string handling
     # (KYLE) Could clean this up? looks messy
-    for i in resultList:
-        cars = 0
-        truck = 0
-        buses = 0
-        motorcycles = 0
-        bicycles = 0
-        timeMark = ""
-        tokens = [x.strip() for x in i.split(',')]
-        for j in tokens:
-            if "car" in j:
-                cars += int(j[:2])
-            elif "truck" in j:
-                truck += int(j[:2])
-            elif "bus" in j:
-                buses += int(j[:2])
-            elif "motorcycle" in j:
-                motorcycles += int(j[:2])
-            elif "bicycle" in j:
-                bicycles += int(j[:2])
-            elif ":" in j:
-                timeMark += j
-        numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
+    # for i in resultList:
+    #     cars = 0
+    #     truck = 0
+    #     buses = 0
+    #     motorcycles = 0
+    #     bicycles = 0
+    #     timeMark = ""
+    #     tokens = [x.strip() for x in i.split(',')]
+    #     for j in tokens:
+    #         if "car" in j:
+    #             cars += int(j[:2])
+    #         elif "truck" in j:
+    #             truck += int(j[:2])
+    #         elif "bus" in j:
+    #             buses += int(j[:2])
+    #         elif "motorcycle" in j:
+    #             motorcycles += int(j[:2])
+    #         elif "bicycle" in j:
+    #             bicycles += int(j[:2])
+    #         elif ":" in j:
+    #             timeMark += j
+    #     numResultList.append([cars,truck,buses,motorcycles,bicycles, timeMark])
             
     # If file doesn't exist, create a new one. If existing data is present, overwrite data
     # (KYLE) May need to look at this again incase we want more data stored
     # Every 50 frames, results are written to runs\detect\exp*\videoname_no_of_frames.txt   
-    results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
+    # results_path = str(save_dir / p.stem) + ('' if dataset.mode == 'image' else f'_data')  # img.txt
     
-    with open(results_path +'.txt', 'x') as fp:
-        fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
-        for i in numResultList:
-            fp.write("%s" % i)
-            fp.write(",\n")
-        print("Finished writing to file")
+    # with open(results_path +'.txt', 'x') as fp:
+    #     fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
+    #     for i in numResultList:
+    #         fp.write("%s" % i)
+    #         fp.write(",\n")
+    #     print("Finished writing to file")
 
-    fp.close()
+    # fp.close()
     # Remove brackets from file and convert to CSV
     with open(results_path +'.txt', 'r') as fp:
         data = fp.read()
@@ -263,6 +294,22 @@ def detect(save_img=False):
     print(graph.head())
     graph.plot()
     plt.savefig(results_path +'.png')
+
+
+def writeToFile(filePath, detectList):
+    with open(filePath+'.txt', 'a') as fp:
+        for i in detectList:
+            fp.write("%s" % i)
+            fp.write(",\n")
+        # fp.write("\n")
+    
+    fp.close()
+    # with open(filePath +'.txt', 'x') as fp:
+    #     fp.write("Cars, Truck, Buses, Motorcycles, Bicycles, Time, \n")
+    #     for i in detectList:
+    #         fp.write("%s" % i)
+    #         fp.write(",\n")
+    #     print("Finished writing to file")
 
 #############################################################################
 ############################################################################# 
