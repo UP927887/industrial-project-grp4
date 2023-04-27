@@ -16,13 +16,6 @@ def login():
   else:
     return jsonify({'message': 'False'})
   
-totalCars = totalTruck = totalBuses = totalMotorcycles = totalBicycles = 0
-totalValues = (totalCars, totalTruck, totalBuses, totalMotorcycles, totalBicycles)
-
-@app.route('/totalValues')
-def get_total_values():
-    return {'totalValues': totalValues}
-  
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
     print('Flask app running on port 5000')
