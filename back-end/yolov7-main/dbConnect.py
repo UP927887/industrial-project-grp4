@@ -16,7 +16,7 @@ mydb = mysql.connector.connect(
     # password="passwordCCTV123",
     # database="cardetectiondb"
 
-    # CLoud database
+    # Cloud database
     host     = "aws.connect.psdb.cloud",
     user     = "1f2h83aw1aylj5fddd0w",
     passwd   = "psc" + "ale" + "_pw_ltczh" + "RemZgYM" + "s8MQH" + "a7hc5T" + "6UT3PRM" + "YUVwvA" + "Vp6sLQN",
@@ -105,6 +105,24 @@ def resetSource(sourceNm, tableNm):
         sourceCursor.execute(sourceDel)
         print(sourceNm + " records deleted")
     mydb.commit()
+
+def loginCreds(username, password):
+    sql = "SELECT COUNT(*) FROM userinfo WHERE username=%s AND password=%s"
+    values = (username, password)
+
+    # Execute the SQL statement
+    cursor = mydb.cursor()
+    cursor.execute(sql, values)
+    result = cursor.fetchone()[0]
+
+    # Close the database connection
+    cursor.close()
+
+    # Check if the username and password match a record in the database
+    if result == 1:
+        return True
+    else:
+        return False
 
 # def create_line_graph(filePath):
 #     # Execute a query to retrieve the necessary data

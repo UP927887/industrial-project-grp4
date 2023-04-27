@@ -44,11 +44,11 @@ const app = express();
 let pyProg;
 
 app.get('/run-script', (req, res) => {
-    pyProg = spawn('python', ['../../../back-end/yolov7-main/detect.py', 
-                              '--weights', '../../back-end/yolov7.pt', 
+    pyProg = spawn('python', ['../back-end/yolov7-main/detect.py', 
+                              '--weights', '../back-end/yolov7.pt', 
                               '--conf', '0.5', 
                               '--img-size', '640', 
-                              '--source', '../../../back-end/videos/america1.mp4', 
+                              '--source', '../back-end/videos/trafficVidEdited.mp4', 
                               '--classes', '1', '2', '3', '5', '7']);
 
     pyProg.on('error', (err) => {

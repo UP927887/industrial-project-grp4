@@ -24,17 +24,6 @@ export const VideoLiveFeed = () => {
     };
 
     function handleClick() {
-        // const { spawn } = require('child_process');
-        // const pyProg = spawn('python',    
-        //                     ['./back-end/yolov7-main/detect.py', 
-        //                     '--weights', './back-end/yolov7.pt', 
-        //                     '--conf', '0.5', 
-        //                     '--img-size', '640', 
-        //                     '--source', './back-end/videos/america1.mp4', 
-        //                     '--classes', '1', '2', '3', '5', '7']);
-        // pyProg.stdout.on('data', function(data) {
-        //     console.log(data.toString());
-        // });
         fetch('http://localhost:4000/run-script')
             .then(response => response.text())
             .then(data => console.log(data))
@@ -44,8 +33,6 @@ export const VideoLiveFeed = () => {
     return(
         <div>
             <div className='live-feed-box'>
-                {/* <button class="kyle">SUBMIT</button> */}
-                
                 <video src={src} controls width="100%">
                     Sorry, your browser doesn't support embedded videos.
                 </video>
@@ -65,30 +52,29 @@ export const VideoLiveFeed = () => {
                             <th class='count'>Count</th>
                         </tr>
                         <tr>
-                            <td>Truck</td>
+                            <td>Cars</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Car</td>
+                            <td>Trucks</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Bike</td>
+                            <td>Buses</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Motorbike</td>
+                            <td>Motorcycles</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Bus</td>
+                            <td>Bicycles</td>
                             <td>8</td>
                         </tr>
                     </tbody>
                 </table>
                 <table className="summary-table-time">
                     <tbody>
-                        {/* <div class = 'lol'> */}
                         <tr id = 'rows'>
                             <th id='car'>Car Type</th>
                             <th class='timestamp'>Video Stamp</th>

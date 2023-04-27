@@ -6,6 +6,7 @@ import { VideoLiveFeed } from './videofeed/VideoFeed';
 // import "./App.css";
 // import { dbConnect } from './database';
 import axios from 'axios';
+// import loginCreds from "dbConnect.py";
 
 import "./App.css";
 
@@ -18,11 +19,12 @@ export default function Login() {
 
     const loginfunc = (e) => {
         e.preventDefault();
-
-        axios.post("http://localhost:3001/login", {
-            usernameSub: usernameLog, 
-            passwordSub: passwordLog}).then((response) => {
-                if (response.data.length > 0) {
+        
+        axios.post("http://127.0.0.1:5000/login", {
+            username: usernameLog, 
+            password: passwordLog}).then((response) => {
+                console.log(response);
+                if (response.data.message === 'True') {
                     setIsSubmitted(true);
                 } else {
                     setIsSubmitted(false);
@@ -30,6 +32,20 @@ export default function Login() {
             }).catch((error) => {
                 console.log(error);
             });
+
+        // axios.post("aws.connect.psdb.cloud/login"/*"http://localhost:3001/login"*/, {
+        //     usernameSub: usernameLog, 
+        //     passwordSub: passwordLog}, {withCredentials: true}).then((response) => {
+        //         if (response.data.length > 0) {
+        //             setIsSubmitted(true);
+        //         } else {
+        //             setIsSubmitted(false);
+        //         }
+        //     }).catch((error) => {
+        //         console.log(error);
+        //     });
+
+        
     };
     
     const renderLoginForm = (
