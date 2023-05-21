@@ -26,7 +26,7 @@ import dbConnect
 ## Requires a dataset to run
 
 def detect(save_img=False):
-    source, weights, view_img, save_txt, imgsz, trace, ROI = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace, opt.ROI
+    source, weights, view_img, save_txt, imgsz, trace = opt.source, opt.weights, opt.view_img, opt.save_txt, opt.img_size, not opt.no_trace
     save_img = not opt.nosave and not source.endswith('.txt')  # save inference images
     webcam = source.isnumeric() or source.endswith('.txt') or source.lower().startswith(
         ('rtsp://', 'rtmp://', 'http://', 'https://'))
@@ -62,9 +62,9 @@ def detect(save_img=False):
     if webcam:
         view_img = check_imshow()
         cudnn.benchmark = True  # set True to speed up constant image size inference
-        dataset = LoadStreams(source, img_size=imgsz, stride=stride, roi = (0,10,10,0))
+        dataset = LoadStreams(source, img_size=imgsz, stride=stride) #roi = (0,10,10,0)
     else:
-        dataset = LoadImages(source, img_size=imgsz, stride=stride, roi=ROI)
+        dataset = LoadImages(source, img_size=imgsz, stride=stride) #roi=ROI
 
     # Get names and colors
     names = model.module.names if hasattr(model, 'module') else model.names
@@ -275,7 +275,7 @@ if __name__ == '__main__':
     parser.add_argument('--name', default='', help='save results to project/name')
     parser.add_argument('--exist-ok', action='store_true', help='existing project/name ok, do not increment')
     parser.add_argument('--no-trace', action='store_true', help='don`t trace model')
-    parser.add_argument('--ROI', nargs='+', default='None', type=int, help='don`t trace model')
+    #parser.add_argument('--ROI', nargs='+', type=str, help='don`t trace model',required=False)
 
     opt = parser.parse_args()
     print(opt)
