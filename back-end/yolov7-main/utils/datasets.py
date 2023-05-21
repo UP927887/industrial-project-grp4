@@ -126,8 +126,8 @@ class _RepeatSampler(object):
 
 
 class LoadImages:  # for inference
-    def __init__(self, path, img_size=640, stride=32, roi = None):
-        self.roi = roi
+    def __init__(self, path, img_size=640, stride=32): #roi = None
+        #self.roi = roi
         p = str(Path(path).absolute())  # os-agnostic absolute path
         if '*' in p:
             files = sorted(glob.glob(p, recursive=True))  # glob
@@ -182,9 +182,9 @@ class LoadImages:  # for inference
             print(f'video {self.count + 1}/{self.nf} ({self.frame}/{self.nframes}) {path}: ', end='')
             
             # Crop image based on ROI coordinates
-            if self.roi is not None:
-                x, y, w, h = self.roi
-                img0 = img0[y:y+h, x:x+w]
+            #if self.roi is not None:
+            #    x, y, w, h = self.roi
+            #   img0 = img0[y:y+h, x:x+w]
 
 
         else:
