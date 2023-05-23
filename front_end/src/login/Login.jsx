@@ -13,7 +13,7 @@ import logo from '../images/colas_logo.png'
 
 import "./Login.css";
 
-export default function Login() {
+export const Login = () => {
 
 
     const [isSubmitted, setIsSubmitted] = useState(false);

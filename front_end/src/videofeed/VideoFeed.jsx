@@ -10,7 +10,9 @@ export const VideoLiveFeed = () => {
     // LOGIC TO ADD MORE ROWS WHEN IT DETECTS VEHICLES
     const [src, setSrc] = useState("");
 
-    const handleChange = (event) => {
+    const [moreData, setMoreData] = useState(false);
+
+    const disPlayVideo = (event) => {
         try {
             // Get the uploaded file
             const file = event.target.files[0];
@@ -22,6 +24,10 @@ export const VideoLiveFeed = () => {
             console.error(error);
         }
     };
+
+    const goToMoreData = () => {
+        setMoreData(true)
+    }
 
     return(
 
@@ -48,7 +54,7 @@ export const VideoLiveFeed = () => {
 
                 <div class="options-container">
 
-                    <input class="" type="file" onChange={handleChange} />
+                    <input class="" type="file" onChange={disPlayVideo} />
                     
                     <button className="btn-login" type='submit'>
                         Run Detection Program
@@ -112,10 +118,11 @@ export const VideoLiveFeed = () => {
 
                 <div className='btn-wrapper'>
                         <button 
-                        className='btn-login' 
+                        className='btn-moredata' 
                         type='more-data' 
+                        onClick={goToMoreData}
                         >
-                            More Data
+                            {moreData ? <MoreData/> : "More Data"}
                         </button>
                 </div>
 
