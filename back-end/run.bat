@@ -1,2 +1,0 @@
-rem python ./yolov7-main/detect.py --weights ./yolov7.pt --conf 0.5 --img-size 640 --source ./videos/america1.mp4 --classes 1 2 3 5 7
-python ./back-end/yolov7-main/detect.py --weights ./back-end/yolov7.pt --conf 0.5 --img-size 640 --source ./back-end/videos/america1.mp4 --classes 1 2 3 5 7

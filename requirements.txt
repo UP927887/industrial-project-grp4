@@ -2,4 +2,3 @@ numpy==1.23.4
 pandas==1.5.3
 opencv-python==4.7.0.68
 matplotlib==3.6.2
-# Languages: Backend (Python), Frontend (HTML, JS)
