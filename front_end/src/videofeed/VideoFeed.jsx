@@ -1,16 +1,18 @@
 import React, {useState} from 'react';
-import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom';
 // import { BrowserRouter as Router } from 'react-router-dom';
 
 import "./Livefeed.css";
+import {MoreData} from '../moredata/data';
 
 export const VideoLiveFeed = () => {
     // window.location.href = '../videofeed';
-
-    // https://www.upbeatcode.com/react/how-to-play-video-in-react/
+    // LOGIC TO ADD MORE ROWS WHEN IT DETECTS VEHICLES
     const [src, setSrc] = useState("");
 
-    const handleChange = (event) => {
+    const [moreData, setMoreData] = useState(false);
+
+    const disPlayVideo = (event) => {
         try {
             // Get the uploaded file
             const file = event.target.files[0];
@@ -23,58 +25,72 @@ export const VideoLiveFeed = () => {
         }
     };
 
-    function handleClick() {
-        fetch('http://localhost:4000/run-script')
-            .then(response => response.text())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+    const goToMoreData = () => {
+        setMoreData(true)
     }
 
     return(
-        <div>
+
             <div className='live-feed-box'>
-                <video src={src} controls width="100%">
-                    Sorry, your browser doesn't support embedded videos.
-                </video>
+                {/* <button class="kyle">SUBMIT</button> */}
 
-                <input type="file" onChange={handleChange} />
+                <div className="videos">
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
 
-                <button type='Sumbit' onClick={handleClick}>
-                    Run Detection Program
-                </button>
-            </div>
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
 
-            <div className='summary'>
-                <table class = "summary-table-count">
-                    <tbody>
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+
+                    <video src={src} controls width="100%">
+                        Sorry, your browser doesn't support embedded videos.
+                    </video>
+                </div>
+
+                <div class="options-container">
+
+                    <input class="" type="file" onChange={disPlayVideo} />
+                    
+                    <button className="btn-login" type='submit'>
+                        Run Detection Program
+                    </button>   
+
+                </div>
+
+                <div class='summary'>
+                    <table class = "summary-table-count">
                         <tr id = 'rows'>
                             <th id='car'>Category</th>
                             <th class='count'>Count</th>
                         </tr>
                         <tr>
-                            <td>Cars</td>
+                            <td>Truck</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Trucks</td>
+                            <td>Car</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Buses</td>
+                            <td>Bike</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Motorcycles</td>
+                            <td>Motorbike</td>
                             <td>8</td>
                         </tr>
                         <tr>
-                            <td>Bicycles</td>
+                            <td>Bus</td>
                             <td>8</td>
                         </tr>
-                    </tbody>
-                </table>
-                <table className="summary-table-time">
-                    <tbody>
+                    </table>
+                    <table class="summary-table-time">
+                        {/* <div class = 'lol'> */}
                         <tr id = 'rows'>
                             <th id='car'>Car Type</th>
                             <th class='timestamp'>Video Stamp</th>
@@ -96,10 +112,20 @@ export const VideoLiveFeed = () => {
                             <td>9th Janury 2022 12:09:11</td>
                         </tr>
                         {/* </div> */}
-                    </tbody>
-                </table>
+                    </table>
+
+                </div>
+
+                <div className='btn-wrapper'>
+                        <button 
+                        className='btn-moredata' 
+                        type='more-data' 
+                        onClick={goToMoreData}
+                        >
+                            {moreData ? <MoreData/> : "More Data"}
+                        </button>
+                </div>
+
             </div>
-            <button className='more-data'>More Data</button>
-        </div>
     )
 }
